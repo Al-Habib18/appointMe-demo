@@ -8,9 +8,9 @@ import { idParamSchema } from "@schemas/index";
 
 // Type definition for user data (replace with your actual schema)
 
-const getAllPatientsController = async (req: Request, res: Response) => {
+const findByIdcontroller = async (req: Request, res: Response) => {
     try {
-        //TODO: Validate the request params
+        //Validate the querey params
         const parsedId = idParamSchema.safeParse(req.params.id);
         if (!parsedId.success) {
             return res.status(400).json({
@@ -18,18 +18,17 @@ const getAllPatientsController = async (req: Request, res: Response) => {
                 errors: parsedId.error.issues,
             });
         }
-        // retrive a simgle patient
-        const patient = await findById(parsedId.data);
+        // retrive a simgle doctor
+        const doctor = await findById(parsedId.data);
 
         return res.status(201).json({
-            message: "Patient retrive successfully",
-            patient,
+            message: "doctor retrive successfully",
+            doctor,
         });
     } catch (error) {
-        console.error("Error during registration:", error);
-        // Handle error and return appropriate response to client
-        return res.status(500).json({ message: "Error creating Patient" });
+        console.error("Error during retrivation:", error);
+        return res.status(500).json({ message: "Error retriveing doctor" });
     }
 };
 
-export default getAllPatientsController;
+export default findByIdcontroller;

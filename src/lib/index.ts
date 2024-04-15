@@ -73,6 +73,7 @@ const createDoctor = async (data: {
                 availability: data.availability,
             },
             select: {
+                id: true,
                 auth_user_id: true,
                 name: true,
                 email: true,
@@ -96,23 +97,30 @@ const updateById = async (
     data: {
         phone?: string | undefined;
         profile_picture?: string | undefined;
-        date_of_birth?: Date | undefined;
-        address?: string | undefined;
-        medecal_records?: string | undefined;
+        bio?: string | undefined;
+        years_of_experience?: number | undefined;
+        hospital_affliation?: string | undefined;
+        availability?: Date | undefined;
     }
 ) => {
     try {
-        const patient = await prisma.doctor.findFirst({
+        const doctor = await prisma.doctor.findFirst({
             where: {
                 id: id,
             },
         });
-        if (!patient) {
+        if (!doctor) {
             throw notFound();
         }
         const dataToUpdate = {
-            phone: data.phone || patient.phone,
-            profile_picture: data.profile_picture || patient.profile_picture,
+            phone: data.phone || doctor.phone,
+            profile_picture: data.profile_picture || doctor.profile_picture,
+            bio: data.bio || doctor.bio,
+            years_of_experience:
+                data.years_of_experience || doctor.years_of_experience,
+            hospital_affliation:
+                data.hospital_affliation || doctor.hospital_affliation,
+            availability: data.availability || doctor.availability,
         };
 
         const updatedPatient = await prisma.doctor.update({
@@ -121,10 +129,17 @@ const updateById = async (
             },
             data: dataToUpdate,
             select: {
+                id: true,
                 auth_user_id: true,
                 name: true,
                 email: true,
                 phone: true,
+                license: true,
+                specialty: true,
+                bio: true,
+                years_of_experience: true,
+                hospital_affliation: true,
+                availability: true,
             },
         });
         return updatedPatient;
@@ -137,6 +152,11 @@ const updateById = async (
 // delete a patient
 const deleteById = async (id: string) => {
     try {
+        //TODO: Delete all review
+        //TODO: Delete all appointment
+        //TODO: Delete all login history
+
+        // delete the doctor
         const patient = await prisma.doctor.delete({ where: { id } });
         return patient;
     } catch (error) {

@@ -27,16 +27,16 @@ const updateController = async (req: Request, res: Response) => {
         }
 
         // Create the auth user
-        const updatedPatient = await updateById(id, parsedBody.data);
-        console.log("patient updated: ", updatedPatient);
+        const updatedDoctor = await updateById(id, parsedBody.data);
+        console.log("doctor updated: ", updatedDoctor);
 
         return res.status(201).json({
-            message: "Patient updated successfully",
-            updatedPatient,
+            message: "doctor updated successfully",
+            updatedDoctor,
         });
     } catch (error) {
-        console.error("Error during registration:", error);
-        return res.status(500).json({ message: "Error creating Patient" });
+        console.error("Error during updating:", error);
+        return res.status(500).json({ message: "Error updating doctor" });
     }
 };
 

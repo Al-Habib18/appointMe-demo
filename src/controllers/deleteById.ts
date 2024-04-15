@@ -24,7 +24,7 @@ const deleteController = async (req: Request, res: Response) => {
             return res.status(400).json({ message: "Patient not found" });
         }
 
-        //delete the patient
+        //delete the doctor
         const deletedPatient = await deleteById(parsedId.data);
 
         return res.status(201).json({

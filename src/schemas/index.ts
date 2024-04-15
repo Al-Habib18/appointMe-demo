@@ -54,5 +54,5 @@ export const doctorUpdateSchema = z.object({
     bio: z.string().max(50).optional(),
     years_of_experience: z.number().optional(),
     hospital_affialion: z.string().optional(),
-    availability: z.date(),
+    availability: z.date().optional(),
 });
