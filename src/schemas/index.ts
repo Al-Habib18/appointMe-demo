@@ -10,12 +10,18 @@ export const queryParamsSchema = z.object({
     sortType: z.string().optional(), // Optional string
 });
 
-import { GenderType } from "@prisma/client";
-
-export const patientCreateSchema = z.object({
+export const doctorCreateSchema = z.object({
     auth_user_id: z.string({ required_error: "auth_user_id is required" }),
     email: z.string({ required_error: "email is required" }).email(),
     name: z.string({ required_error: "name is required" }).min(3).max(255),
+    license: z
+        .string({ required_error: "license is required" })
+        .min(3)
+        .max(255),
+    specialty: z
+        .string({ required_error: "specialty is required" })
+        .min(3)
+        .max(255),
     phone: z
         .string()
         .min(11)
@@ -23,8 +29,30 @@ export const patientCreateSchema = z.object({
         .or(z.string().regex(/^[0-9]{11}$/))
         .optional(),
     profile_picture: z.string().optional(),
-    date_of_birth: z.date().optional(),
-    medicalA_records: z.string().optional(),
-    address: z.string().optional(),
-    gender: z.nativeEnum(GenderType).optional(),
+    bio: z.string().max(50).optional(),
+    years_of_experience: z.number().optional(),
+    hospital_affialion: z.string().optional(),
+    availability: z.date().optional(),
+});
+
+export const doctorUpdateSchema = z.object({
+    license: z
+        .string({ required_error: "license is required" })
+        .min(3)
+        .max(255),
+    specialty: z
+        .string({ required_error: "specialty is required" })
+        .min(3)
+        .max(255),
+    phone: z
+        .string()
+        .min(11)
+        .max(11)
+        .or(z.string().regex(/^[0-9]{11}$/))
+        .optional(),
+    profile_picture: z.string().optional(),
+    bio: z.string().max(50).optional(),
+    years_of_experience: z.number().optional(),
+    hospital_affialion: z.string().optional(),
+    availability: z.date(),
 });

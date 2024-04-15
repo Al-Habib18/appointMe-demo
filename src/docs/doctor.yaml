@@ -3,24 +3,24 @@
 openapi: 3.0.0
 info:
     version: 1.0.0
-    title: "Patient Service"
-    description: "Patient Service enables to create and manage Patients"
+    title: "Doctor Service"
+    description: "Doctor Service enables to create and manage Doctors"
 servers:
     # Added by API Auto Mocking Plugin
-    # - description: SwaggerHub API Auto Mocking
-    #   url: https://virtserver.swaggerhub.com/Al-Habib18/appointMe/patient
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/Al-Habib18/appointMe/doctor
     - description: dev server
-      url: http://localhost:4002
+      url: http://localhost:4003
 
 tags:
-    - name: Patient
-      description: Patient service Endpoints
+    - name: Doctor
+      description: Doctor service Endpoints
 
 paths:
-    /patients:
+    /doctors:
         post:
-            tags: [Patient]
-            description: create a new patient
+            tags: [Doctor]
+            description: create a new Doctor
             requestBody:
                 content:
                     "application/json":
@@ -39,20 +39,23 @@ paths:
                                 phone_number:
                                     type: string
                                     example: 01313306149
-                                gender:
+                                license_number:
                                     type: string
-                                    enum:
-                                        - male
-                                        - female
-                                    example: male
-                                date_of_birth:
+                                    example: 534254539
+                                specialty:
                                     type: string
-                                    format: data-time
-
-                            required: [auth_user_id, name, email]
+                                    example: Dentist
+                            required:
+                                [
+                                    auth_user_id,
+                                    name,
+                                    email,
+                                    license_number,
+                                    specialty,
+                                ]
             responses:
                 "201":
-                    description: Patient Registration successful
+                    description: Doctor Registration successful
                     content:
                         "application/json":
                             schema:
@@ -60,7 +63,7 @@ paths:
                                 properties:
                                     message:
                                         type: string
-                                        example: Patient Registration successful
+                                        example: Doctor Registration successful
                                     data:
                                         type: object
                                         properties:
@@ -76,38 +79,35 @@ paths:
                                             phone_number:
                                                 type: string
                                                 example: 01313306149
-                                            gender:
+                                            license_number:
                                                 type: string
-                                                enum:
-                                                    - male
-                                                    - female
-                                                example: male
-                                            date_of_birth:
+                                                example: 534254539
+                                            specialty:
                                                 type: string
-                                                format: data-time
+                                                example: Dentist
                                             created_at:
                                                 type: string
                                                 format: date-time
                                     links:
                                         type: object
                                         properties:
-                                            patient:
+                                            Doctor:
                                                 type: string
-                                                example: "/patients/:id"
+                                                example: "/doctors/:id"
                 "400":
                     $ref: "#/components/responses/400"
                 "500":
                     $ref: "#/components/responses/500"
         get:
-            description: Retrive a list of Patients
-            tags: [Patient]
+            description: Retrive a list of doctors
+            tags: [Doctor]
             parameters:
                 - $ref: "#/components/parameters/pageParam"
                 - $ref: "#/components/parameters/limitParam"
                 - $ref: "#/components/parameters/sortByparam"
             responses:
                 "200":
-                    description: Get a list of Patient
+                    description: Get a list of Doctor
                     content:
                         application/json:
                             schema:
@@ -131,15 +131,12 @@ paths:
                                                       phone_number:
                                                           type: string
                                                           example: 01313306149
-                                                      gender:
+                                                      license_number:
                                                           type: string
-                                                          enum:
-                                                              - male
-                                                              - female
-                                                          example: male
-                                                      date_of_birth:
+                                                          example: 534254539
+                                                      specialty:
                                                           type: string
-                                                          format: data-time
+                                                          example: Dentist
 
                                                 - $ref: "#/components/schemas/Timestamp"
                                     pagination:
@@ -150,28 +147,28 @@ paths:
                                             self:
                                                 type: string
                                                 format: url
-                                                example: /patients?page=2&limit=5
+                                                example: /doctors?page=2&limit=5
                                             next:
                                                 type: string
                                                 format: url
-                                                example: /patients?page=3&limit=5
+                                                example: /doctors?page=3&limit=5
                                             prev:
                                                 type: string
                                                 format: url
-                                                example: /patients?page=1&limit=5
+                                                example: /doctors?page=1&limit=5
                 "400":
                     $ref: "#/components/responses/400"
                 "401":
                     $ref: "#/components/responses/401"
                 "500":
                     $ref: "#/components/responses/500"
-    /patients/me:
+    /doctors/me:
         get:
-            tags: [Patient]
-            description: Retrive patient's profile
+            tags: [Doctor]
+            description: Retrive a single doctor by id
             responses:
                 "200":
-                    description: Patient's profile retrive  successful
+                    description: Doctor retrive  successful
                     content:
                         "application/json":
                             schema:
@@ -179,14 +176,13 @@ paths:
                                 properties:
                                     message:
                                         type: string
-                                        example: Patient retrive successful
+                                        example: Doctor retrive successful
                                     data:
                                         type: object
                                         properties:
                                             id:
                                                 type: string
                                                 example: as23sdfksdh34hs
-
                                             auth_user_id:
                                                 type: string
                                                 example: ksf12kdfh23kd23
@@ -199,15 +195,12 @@ paths:
                                             phone_number:
                                                 type: string
                                                 example: 01313306149
-                                            gender:
+                                            license_number:
                                                 type: string
-                                                enum:
-                                                    - male
-                                                    - female
-                                                example: male
-                                            date_of_birth:
+                                                example: 534254539
+                                            specialty:
                                                 type: string
-                                                format: data-time
+                                                example: Dentist
                                             created_at:
                                                 type: string
                                                 format: date-time
@@ -219,8 +212,8 @@ paths:
                 "500":
                     $ref: "#/components/responses/500"
         put:
-            tags: [Patient]
-            description: Update a single Patient by id
+            tags: [Doctor]
+            description: Update a single doctor by id
             parameters:
                 - $ref: "#/components/parameters/idPathParam"
             requestBody:
@@ -232,15 +225,15 @@ paths:
                                 phone_number:
                                     type: string
                                     example: 01313306149
-                                gender:
+                                license_number:
                                     type: string
-                                    enum:
-                                        - male
-                                        - female
-                                    example: male
-                                date_of_birth:
+                                    example: 534254539
+                                specialty:
                                     type: string
-                                    format: data-time
+                                    example: Dentist
+                                years_of_experience:
+                                    type: number
+                                    example: 4
             responses:
                 "200":
                     description: update successful
@@ -251,14 +244,13 @@ paths:
                                 properties:
                                     message:
                                         type: string
-                                        example: Patient update successful
+                                        example: Doctor retrive successful
                                     data:
                                         type: object
                                         properties:
                                             id:
                                                 type: string
                                                 example: as23sdfksdh34hs
-
                                             auth_user_id:
                                                 type: string
                                                 example: ksf12kdfh23kd23
@@ -271,15 +263,15 @@ paths:
                                             phone_number:
                                                 type: string
                                                 example: 01313306149
-                                            gender:
+                                            license_number:
                                                 type: string
-                                                enum:
-                                                    - male
-                                                    - female
-                                                example: male
-                                            date_of_birth:
+                                                example: 534254539
+                                            specialty:
                                                 type: string
-                                                format: data-time
+                                                example: Dentist
+                                            years_of_experience:
+                                                type: number
+                                                example: 4
                                             created_at:
                                                 type: string
                                                 format: date-time
@@ -290,10 +282,11 @@ paths:
                     $ref: "#/components/responses/400"
                 "500":
                     $ref: "#/components/responses/500"
-    /patients/me/appointments:
+
+    /doctors/me/appointments:
         get:
             tags:
-                - "Patient"
+                - "Doctor"
             description: Retrive upcomming appointment_status
             responses:
                 "200":
@@ -362,58 +355,60 @@ paths:
                     $ref: "#/components/responses/400"
                 "500":
                     $ref: "#/components/responses/500"
-    /patients/{id}:
+    /doctors/{id}:
         get:
-            tags: [Patient]
-            description: Retrive a single Patient by id
+            tags: [Doctor]
+            description: Retrive a single doctor by id
             parameters:
                 - $ref: "#/components/parameters/idPathParam"
             responses:
                 "200":
-                    description: Patient retrive  successful
+                    description: Doctor retrive  successful
                     content:
                         "application/json":
                             schema:
                                 type: object
                                 properties:
-                                    id:
+                                    message:
                                         type: string
-                                        example: as23sdfksdh34hs
-
-                                    auth_user_id:
-                                        type: string
-                                        example: ksf12kdfh23kd23
-                                    name:
-                                        type: string
-                                        example: Ashik Mondol
-                                    email:
-                                        type: string
-                                        example: ashik@gmail.com
-                                    phone_number:
-                                        type: string
-                                        example: 01313306149
-                                    gender:
-                                        type: string
-                                        enum:
-                                            - male
-                                            - female
-                                        example: male
-                                    date_of_birth:
-                                        type: string
-                                        format: data-time
-                                    created_at:
-                                        type: string
-                                        format: date-time
-                                    updated_at:
-                                        type: string
-                                        format: date-time
+                                        example: Doctor retrive successful
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: string
+                                                example: as23sdfksdh34hs
+                                            auth_user_id:
+                                                type: string
+                                                example: ksf12kdfh23kd23
+                                            name:
+                                                type: string
+                                                example: Raisul Islam
+                                            email:
+                                                type: string
+                                                example: raisul@gmail.com
+                                            phone_number:
+                                                type: string
+                                                example: 01313306149
+                                            license_number:
+                                                type: string
+                                                example: 534254539
+                                            specialty:
+                                                type: string
+                                                example: Dentist
+                                            created_at:
+                                                type: string
+                                                format: date-time
+                                            updated_at:
+                                                type: string
+                                                format: date-time
                 "400":
                     $ref: "#/components/responses/400"
                 "500":
                     $ref: "#/components/responses/500"
         put:
-            tags: [Patient]
-            description: Update a single Patient by id
+            tags: [Doctor]
+            description: Update a single doctor by id
             parameters:
                 - $ref: "#/components/parameters/idPathParam"
             requestBody:
@@ -435,7 +430,7 @@ paths:
                                     type: number
                                     example: 4
             responses:
-                "201":
+                "200":
                     description: update successful
                     content:
                         "application/json":
@@ -444,35 +439,34 @@ paths:
                                 properties:
                                     message:
                                         type: string
-                                        example: Patient retrive successful
+                                        example: Doctor retrive successful
                                     data:
                                         type: object
                                         properties:
                                             id:
                                                 type: string
                                                 example: as23sdfksdh34hs
-
                                             auth_user_id:
                                                 type: string
                                                 example: ksf12kdfh23kd23
                                             name:
                                                 type: string
-                                                example: Ashik Mondol
+                                                example: Raisul Islam
                                             email:
                                                 type: string
-                                                example: ashik@gmail.com
+                                                example: raisul@gmail.com
                                             phone_number:
                                                 type: string
                                                 example: 01313306149
-                                            gender:
+                                            license_number:
                                                 type: string
-                                                enum:
-                                                    - male
-                                                    - female
-                                                example: male
-                                            date_of_birth:
+                                                example: 534254539
+                                            specialty:
                                                 type: string
-                                                format: data-time
+                                                example: Dentist
+                                            years_of_experience:
+                                                type: number
+                                                example: 4
                                             created_at:
                                                 type: string
                                                 format: date-time
@@ -484,13 +478,13 @@ paths:
                 "500":
                     $ref: "#/components/responses/500"
         delete:
-            tags: [Patient]
-            description: Retrive a single Patient by id
+            tags: [Doctor]
+            description: Retrive a single doctor by id
             parameters:
                 - $ref: "#/components/parameters/idPathParam"
             responses:
-                "201":
-                    description: Patient deleted  successfully
+                "204":
+                    description: Doctor deleted  successfully
                 "400":
                     $ref: "#/components/responses/400"
                 "500":

@@ -1,16 +1,16 @@
 /** @format */
 
 import prisma from "@schemas/prisma";
-import { GenderType } from "@prisma/client";
+import { notFound } from "@utils/error";
 
 // check if the user already exists
-const getExitingPatient = async (email: string) => {
-    const user = await prisma.patient.findUnique({ where: { email } });
+const getExitingDoctor = async (email: string) => {
+    const user = await prisma.doctor.findUnique({ where: { email } });
     return user;
 };
 
 // retrive all patient
-const getAllPatient = async (data: {
+const getAllDoctor = async (data: {
     limit?: number | undefined;
     page?: number | undefined;
     sortType?: string | undefined;
@@ -20,25 +20,116 @@ const getAllPatient = async (data: {
         if (data.limit === undefined) data.limit = 10;
         if (data.sortType === undefined) data.sortType = "asc";
 
-        const patients = await prisma.patient.findMany({
+        const doctors = await prisma.doctor.findMany({
             skip: data.limit * (data.page - 1) || 0,
             take: data.limit || 10,
             orderBy: { id: data.sortType === "asc" ? "asc" : "desc" },
         });
-        return patients;
+        return doctors;
+    } catch (error) {
+        console.error("Error getting doctors:", error);
+        return null;
+    }
+};
+
+// retrive doctor by id
+const findById = async (id: string) => {
+    try {
+        const doctor = await prisma.doctor.findFirst({ where: { id } });
+        return doctor;
     } catch (error) {
         console.error("Error getting patients:", error);
         return null;
     }
 };
 
-// retrive patient by id
-const findById = async (id: string) => {
+// create a new doctor
+const createDoctor = async (data: {
+    auth_user_id: string;
+    name: string;
+    email: string;
+    license: string;
+    specialty: string;
+    phone?: string | undefined;
+    profile_picture?: string | undefined;
+    bio?: string | undefined;
+    years_of_experience?: number | 0;
+    hospital_affliation?: string | undefined;
+    availability?: Date | undefined;
+}) => {
     try {
-        const patients = await prisma.patient.findFirst({ where: { id } });
-        return patients;
+        const doctor = await prisma.doctor.create({
+            data: {
+                auth_user_id: data.auth_user_id,
+                name: data.name,
+                email: data.email,
+                license: data.license,
+                specialty: data.specialty,
+                phone: data.phone,
+                profile_picture: data.profile_picture,
+                bio: data.bio,
+                years_of_experience: data.years_of_experience,
+                hospital_affliation: data.hospital_affliation,
+                availability: data.availability,
+            },
+            select: {
+                auth_user_id: true,
+                name: true,
+                email: true,
+                phone: true,
+                license: true,
+                specialty: true,
+                bio: true,
+                years_of_experience: true,
+            },
+        });
+        return doctor;
     } catch (error) {
-        console.error("Error getting patients:", error);
+        console.error("Error creating doctor :", error);
+        return null;
+    }
+};
+
+// update a patien
+const updateById = async (
+    id: string,
+    data: {
+        phone?: string | undefined;
+        profile_picture?: string | undefined;
+        date_of_birth?: Date | undefined;
+        address?: string | undefined;
+        medecal_records?: string | undefined;
+    }
+) => {
+    try {
+        const patient = await prisma.doctor.findFirst({
+            where: {
+                id: id,
+            },
+        });
+        if (!patient) {
+            throw notFound();
+        }
+        const dataToUpdate = {
+            phone: data.phone || patient.phone,
+            profile_picture: data.profile_picture || patient.profile_picture,
+        };
+
+        const updatedPatient = await prisma.doctor.update({
+            where: {
+                id: id,
+            },
+            data: dataToUpdate,
+            select: {
+                auth_user_id: true,
+                name: true,
+                email: true,
+                phone: true,
+            },
+        });
+        return updatedPatient;
+    } catch (error) {
+        console.log("Error updating patient:", error);
         return null;
     }
 };
@@ -46,56 +137,18 @@ const findById = async (id: string) => {
 // delete a patient
 const deleteById = async (id: string) => {
     try {
-        const patient = await prisma.patient.delete({ where: { id } });
+        const patient = await prisma.doctor.delete({ where: { id } });
         return patient;
     } catch (error) {
         console.error("Error deleting patient:", error);
         return null;
     }
 };
-
-// create a new patient
-const createPatient = async (data: {
-    auth_user_id: string;
-    name: string;
-    email: string;
-    phone?: string | undefined;
-    profile_picture?: string | undefined;
-    date_of_birth?: Date | undefined;
-    gender?: GenderType | undefined;
-    address?: string | undefined;
-}) => {
-    try {
-        const patient = await prisma.patient.create({
-            data: {
-                auth_user_id: data.auth_user_id,
-                name: data.name,
-                email: data.email,
-                phone: data.phone,
-                profile_picture: data.profile_picture,
-                date_of_birth: data.date_of_birth,
-                gender: data.gender,
-                address: data.address,
-            },
-            select: {
-                name: true,
-                email: true,
-                phone: true,
-                gender: true,
-                date_of_birth: true,
-            },
-        });
-        return patient;
-    } catch (error) {
-        console.error("Error creating patient:", error);
-        return null;
-    }
-};
-
 export {
-    getExitingPatient,
-    createPatient,
-    getAllPatient,
+    getExitingDoctor,
+    createDoctor,
+    getAllDoctor,
     findById,
+    updateById,
     deleteById,
 };

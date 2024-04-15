@@ -19,7 +19,7 @@ app.use(cors());
 app.use(router);
 
 // SwaggerUI
-const swaggerDocs = YML.load(path.join(__dirname, "../docs", "swagger.yaml"));
+const swaggerDocs = YML.load(path.join(__dirname, "../docs", "doctor.yaml"));
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 // Check Health

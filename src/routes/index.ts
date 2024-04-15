@@ -1,15 +1,17 @@
 /** @format */
 const router = require("express").Router();
 import {
-    creationtController,
-    getAllPatientsController,
-    findByIdcontroller,
-    deleteController,
+    createController,
+    getAllController,
+    // findByIdcontroller,
+    // deleteController,
+    // updateController,
 } from "@controllers/index";
 
-router.post("/patients", creationtController);
-router.get("/patients", getAllPatientsController);
-router.get("/patients/:id", findByIdcontroller);
-router.delete("/patients/:id", deleteController);
+router.post("/doctors", createController);
+router.get("/doctors", getAllController);
+// router.get("/doctors/:id", findByIdcontroller);
+// router.put("/doctors/:id", updateController);
+// router.delete("/doctors/:id", deleteController);
 
 export default router;

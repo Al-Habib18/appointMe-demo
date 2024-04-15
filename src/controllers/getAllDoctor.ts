@@ -1,14 +1,14 @@
 /** @format */
 
 import { Response, Request } from "express";
-import { getAllPatient } from "@lib/index";
+import { getAllDoctor } from "@lib/index";
 import { queryParamsSchema } from "@schemas/index";
 // import axios from "axios";
 // import { EMAIL_SERVICE, USER_SERVICE } from "@/config";
 
 // Type definition for user data (replace with your actual schema)
 
-const getAllPatientsController = async (req: Request, res: Response) => {
+const getAllController = async (req: Request, res: Response) => {
     try {
         // Validate the request params
         let { limit, page, sortType } = req.query;
@@ -36,7 +36,7 @@ const getAllPatientsController = async (req: Request, res: Response) => {
 
         const { data } = parsedParams;
         // retrive all patients
-        const patients = await getAllPatient({ ...data });
+        const patients = await getAllDoctor({ ...data });
 
         return res.status(201).json({
             message: "Patient retrive successfully",
@@ -48,4 +48,4 @@ const getAllPatientsController = async (req: Request, res: Response) => {
     }
 };
 
-export default getAllPatientsController;
+export default getAllController;
