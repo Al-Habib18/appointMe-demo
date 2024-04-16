@@ -1,6 +1,5 @@
 /** @format */
 
-// import createController from "@controllers/create";
 it("should validate request body and create login_history successfully", async () => {
     // Mocked request and response objects
     const req = {
@@ -21,7 +20,7 @@ it("should validate request body and create login_history successfully", async (
         success: true,
         data: req.body,
     });
-    jest.mock("../../src/schemas/index", () => ({
+    jest.mock("@schemas/index", () => ({
         createLoginHistorySchema: {
             safeParse: safeParseMock,
         },
