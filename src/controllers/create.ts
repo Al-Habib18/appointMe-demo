@@ -12,8 +12,6 @@ const createController = async (req: Request, res: Response) => {
             return res.status(400).json({ errors: parsedBody.error.errors });
         }
 
-        //TODO: Check if the user already exists
-
         // Create the login_history
         const login_history = await createLoginHistory(parsedBody.data);
         console.log("login_history created: ", login_history);

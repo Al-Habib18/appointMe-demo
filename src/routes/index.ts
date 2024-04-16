@@ -3,16 +3,12 @@
 const router = require("express").Router();
 import {
     createController,
-    // getAllController,
-    // findByIdcontroller,
-    // deleteController,
-    // updateController,
+    getAllController,
+    findByIdController,
 } from "@controllers/index";
 
 router.post("/login-histories", createController);
-// router.get("/login_histories", getAllController);
-// router.get("/login_histories/:id", findByIdcontroller);
-// router.put("/login_histories/:id", updateController);
-// router.delete("/login_histories/:id", deleteController);
+router.get("/login-histories", getAllController);
+router.get("/login-histories/:id", findByIdController);
 
 export default router;

@@ -9,3 +9,11 @@ export const createLoginHistorySchema = z.object({
     user_agent: z.string(),
     attempt: z.nativeEnum(LoginAttempt).optional(),
 });
+
+export const idParamSchema = z.string();
+
+export const queryParamsSchema = z.object({
+    limit: z.number().positive().optional(), // Optional positive integer
+    page: z.number().positive().optional(), // Optional positive integer
+    sortType: z.string().optional(), // Optional string
+});

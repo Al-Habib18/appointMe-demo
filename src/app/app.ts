@@ -24,7 +24,4 @@ app.get("/health", (_req, res) => {
     res.status(200).json({ message: "UP" });
 });
 
-app.use("/*", (_req, res) => {
-    res.status(404).json({ message: "Not Found" });
-});
 export default app;

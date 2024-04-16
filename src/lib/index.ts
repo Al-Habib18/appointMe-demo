@@ -19,6 +19,7 @@ const createLoginHistory = async (data: {
                 attempt: data.attempt,
             },
             select: {
+                id: true,
                 auth_user_id: true,
                 ip_address: true,
                 user_agent: true,
@@ -33,4 +34,37 @@ const createLoginHistory = async (data: {
     }
 };
 
-export { createLoginHistory };
+const getAllLoginHistory = async (data: {
+    limit?: number | undefined;
+    page?: number | undefined;
+    sortType?: string | undefined;
+}) => {
+    try {
+        if (data.page === undefined) data.page = 1;
+        if (data.limit === undefined) data.limit = 10;
+        if (data.sortType === undefined) data.sortType = "asc";
+
+        const login_histories = await prisma.history.findMany({
+            skip: data.limit * (data.page - 1) || 0,
+            take: data.limit || 10,
+            orderBy: { id: data.sortType === "asc" ? "asc" : "desc" },
+        });
+        return login_histories;
+    } catch (error) {
+        console.error("Error getting doctors:", error);
+        return null;
+    }
+};
+
+// retrive login history by id
+const findById = async (id: string) => {
+    try {
+        const login_history = await prisma.history.findFirst({ where: { id } });
+        return login_history;
+    } catch (error) {
+        console.error("Error getting login_history:", error);
+        return null;
+    }
+};
+
+export { createLoginHistory, getAllLoginHistory, findById };
