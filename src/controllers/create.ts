@@ -8,7 +8,7 @@ import { patientCreateSchema } from "@schemas/index";
 
 // Type definition for user data (replace with your actual schema)
 
-const creationtController = async (req: Request, res: Response) => {
+const createController = async (req: Request, res: Response) => {
     try {
         // Validate the request body
         const parsedBody = patientCreateSchema.safeParse(req.body);
@@ -36,4 +36,4 @@ const creationtController = async (req: Request, res: Response) => {
     }
 };
 
-export default creationtController;
+export default createController;

@@ -28,3 +28,17 @@ export const patientCreateSchema = z.object({
     address: z.string().optional(),
     gender: z.nativeEnum(GenderType).optional(),
 });
+
+export const patientUpdateSchema = z.object({
+    phone: z
+        .string()
+        .min(11)
+        .max(11)
+        .or(z.string().regex(/^[0-9]{11}$/))
+        .optional(),
+    profile_picture: z.string().optional(),
+    date_of_birth: z.date().optional(),
+    medicalA_records: z.string().optional(),
+    address: z.string().optional(),
+    gender: z.nativeEnum(GenderType).optional(),
+});
