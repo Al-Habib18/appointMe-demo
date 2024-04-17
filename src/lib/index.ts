@@ -36,7 +36,7 @@ const createEmail = async (data: {
         });
         return email;
     } catch (error) {
-        console.error("Error creating login History:", error);
+        console.error("Error creating emails:", error);
         return null;
     }
 };
@@ -59,7 +59,7 @@ const getAllEmails = async (data: {
         });
         return emails;
     } catch (error) {
-        console.error("Error getting doctors:", error);
+        console.error("Error getting emails:", error);
         return null;
     }
 };
@@ -70,9 +70,19 @@ const findById = async (id: string) => {
         const email = await prisma.email.findFirst({ where: { id } });
         return email;
     } catch (error) {
-        console.error("Error getting login_history:", error);
+        console.error("Error getting email:", error);
         return null;
     }
 };
 
-export { createEmail, getAllEmails, findById };
+//delete by id
+const deleteById = async (id: string) => {
+    try {
+        const email = await prisma.email.delete({ where: { id } });
+        return email;
+    } catch (error) {
+        console.error("Error deleteing email:", error);
+        return null;
+    }
+};
+export { createEmail, getAllEmails, findById, deleteById };
