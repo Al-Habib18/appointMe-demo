@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum emailStatus {
+  SUCCESS
+  FAILED
+}
+
+enum emailSource {
+  ACCOUNT_ACTIVATION
+  PASSWORD_RESET
+  EMAIL_CHANGE
+  TWO_FACTOR_AUTH
+  TWO_FACTOR_AUTH_DISABLE
+}
+model Email {
+  id        String  @id @default(cuid())
+  sender    String
+  recipient String
+  subject   String
+  body      String
+  source    emailSource @default(ACCOUNT_ACTIVATION)
+  status    emailStatus @default(SUCCESS)
+  createdAt DateTime    @default(now())
+}
