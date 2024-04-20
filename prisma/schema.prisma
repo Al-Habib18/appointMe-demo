@@ -25,7 +25,7 @@ enum appointmentStatus {
   pending
   confirmed
   completed
-  //cancelled
+  cancelled
 }
 
 enum paymentMethod {
@@ -47,7 +47,7 @@ model Appointment {
   doctor_id     String
   doctor_name   String?
   doctor_email  String?
-  // fee           Int
+  fee           Int
   appointment_type appointmentType    @default(consultation)
   status           appointmentStatus  @default(pending)
   payment_method   paymentMethod      @default(hand_cash)

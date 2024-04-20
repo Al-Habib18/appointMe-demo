@@ -3,10 +3,6 @@
 import { Response, Request } from "express";
 import { createAppointment } from "@lib/index";
 import { appointmentCreateScehma } from "@schemas/index";
-// import axios from "axios";
-// import { patient_service_url } from "@config/default";
-
-// Type definition for user data (replace with your actual schema)
 
 const createController = async (req: Request, res: Response) => {
     try {
@@ -17,11 +13,13 @@ const createController = async (req: Request, res: Response) => {
         }
         //TODO: retrive doctorname and email
         //TODO: retrive patient name and email
+
         // Create the auth user
         const appintment = await createAppointment({
             patient_id: parsedBody.data.patient_id,
             doctor_id: parsedBody.data.doctor_id,
             appointment_date: new Date(parsedBody.data.appointment_date),
+            fee: parsedBody.data.fee,
         });
         console.log("appintment created: ", appintment);
 

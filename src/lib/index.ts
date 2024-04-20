@@ -1,10 +1,5 @@
 /** @format */
 import prisma from "@schemas/prisma";
-// import { UserCreateSchema } from "@schemas/userCreate";
-// const getExitingUser = async (email: string) => {
-//     const user = await prisma.user.findUnique({ where: { email } });
-//     return user;
-// };
 
 const getAllAppointments = async (data: {
     limit?: number | undefined;
@@ -33,17 +28,29 @@ const createAppointment = async (data: {
     patient_id: string;
     doctor_id: string;
     appointment_date: Date;
+    fee: number;
 }) => {
     const appintment = await prisma.appointment.create({
         data: {
             patient_id: data.patient_id,
             doctor_id: data.doctor_id,
             appointment_date: data.appointment_date,
+            fee: data.fee,
         },
         select: {
             id: true,
             patient_id: true,
+            patient_name: true,
             doctor_id: true,
+            doctor_name: true,
+            fee: true,
+            appointment_date: true,
+            appointment_type: true,
+            status: true,
+            payment_method: true,
+            payement_status: true,
+            location: true,
+            created_at: true,
         },
     });
     return appintment;

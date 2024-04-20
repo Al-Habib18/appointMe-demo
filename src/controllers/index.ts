@@ -6,3 +6,4 @@ export { default as findByIdcontroller } from "./findById";
 export { default as deleteController } from "./deleteById";
 export { default as findAllByPatientIdController } from "./findByPatientId";
 export { default as findAllByDoctorIdController } from "./findByDoctorId";
+export { default as deleteAllController } from "./deleteAll";

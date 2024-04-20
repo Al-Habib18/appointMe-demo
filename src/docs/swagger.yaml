@@ -33,9 +33,9 @@ paths:
                                 doctor_id:
                                     type: string
                                     example: ksf12kdfh23kd23
-                                # fee:
-                                #     type: number
-                                #     example: 500
+                                fee:
+                                    type: number
+                                    example: 500
                                 appointment_type:
                                     type: string
                                     enum:
@@ -203,6 +203,16 @@ paths:
                                                 type: string
                                                 format: url
                                                 example: /appointments?page=1&limit=5
+                "400":
+                    $ref: "#/components/responses/400"
+                "401":
+                    $ref: "#/components/responses/401"
+                "500":
+                    $ref: "#/components/responses/500"
+        delete:
+            tags:
+                - "appointment"
+            responses:
                 "400":
                     $ref: "#/components/responses/400"
                 "401":
