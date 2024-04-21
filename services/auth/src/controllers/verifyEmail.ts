@@ -18,8 +18,6 @@ const verifyEmailController = async (
 ) => {
     try {
         const { email, code } = req.body;
-        console.log("EmaiL : ", email);
-        console.log("code:", code);
         // Validate the request body
         const parsedBody = EmailVerificationSchema.safeParse({ email, code });
         if (!parsedBody.success) {

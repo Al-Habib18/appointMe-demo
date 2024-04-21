@@ -2,8 +2,8 @@
 
 import { Response, Request } from "express";
 import { UserLoginSchema } from "@schemas/index";
-import { getExitingUser, createRefreshToken } from "@lib/index";
-import { getAccessToken, hasMatched } from "@utils/index";
+import { getExitingUser, createRefresh } from "@lib/index";
+import { hasMatched } from "@utils/index";
 
 /* type LoginHistory = {
     userId: string;
@@ -22,8 +22,6 @@ const loginController = async (req: Request, res: Response) => {
         //     (req.headers["x-forwarded-for"] as string) || req.ip || "";
         // const userAgent = req.headers["user-agent"] || "";
 
-        // console.log("req body: ", req.body);
-
         // Validate the request body
         const parsedBody = UserLoginSchema.safeParse(req.body);
         if (!parsedBody.success) {
@@ -40,39 +38,31 @@ const loginController = async (req: Request, res: Response) => {
         const isMatch = hasMatched(parsedBody.data.password, user.password);
 
         if (!isMatch) {
-            // await createLoginHistory({
+            //TODO: await createLoginHistory({
         }
 
         // check if the user is verified
         if (!user.verified) {
-            // await createLoginHistory
+            //TODO: await createLoginHistory
         }
 
         // check if the account is active
         if (user.status !== "ACTIVE") {
-            // await createLoginHistory
+            //TODO: await createLoginHistory
         }
 
-        // generate access token
-        const accessToken = getAccessToken({
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            role: user.role,
-        });
-
         // generate refresh token
-        const refreshToken = await createRefreshToken({
+        const refreshToken = await createRefresh({
             id: user.id,
             email: user.email,
             name: user.name,
             role: user.role,
         });
 
-        //TODO: Create login History
+        //TODO: Create login History with attemp = "succes"
+
         return res.status(200).json({
             message: "Login successful",
-            accessToken,
             refreshToken,
         });
     } catch (error) {

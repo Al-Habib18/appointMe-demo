@@ -2,7 +2,7 @@
 
 const bcrypt = require("bcryptjs");
 import amqp from "amqplib";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 // import { QUEUE_URL } from "../../config/default";
 
 const generateHash = async (payload: string, saltRound = 10) => {
@@ -34,6 +34,32 @@ const getAccessToken = (data: {
     return accessToken;
 };
 
+const decodeToken = (token: string) => {
+    const user = jwt.verify(token, process.env.JWT_SECRET ?? "My_Secret_Key");
+    return user as JwtPayload;
+};
+
+const getTokenExpiration = (token: string) => {
+    try {
+        const decoded = decodeToken(token);
+
+        let expiration = decoded.exp;
+        if (!expiration) {
+            return new Error("Invalid token");
+        }
+        const currentTime = Math.floor(Date.now() / 1000);
+
+        if (currentTime > expiration) {
+            return true;
+        }
+        return false;
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+};
+// check token expiration
+
 const sendToQueue = async (queue: string, message: string) => {
     try {
         const connection = await amqp.connect(
@@ -64,4 +90,11 @@ const sendToQueue = async (queue: string, message: string) => {
         return null;
     }
 };
-export { generateHash, hasMatched, sendToQueue, getAccessToken };
+export {
+    generateHash,
+    hasMatched,
+    sendToQueue,
+    getAccessToken,
+    decodeToken,
+    getTokenExpiration,
+};

@@ -2,7 +2,8 @@
 
 import { Response, Request } from "express";
 import { refreshTokenSchema } from "@schemas/index";
-import { decodeUser, deleteRefreshToken } from "@lib/index";
+import { deleteRefresh } from "@lib/index";
+import { decodeUser } from "@utils/index";
 
 const logoutController = async (req: Request, res: Response) => {
     try {
@@ -19,9 +20,7 @@ const logoutController = async (req: Request, res: Response) => {
         }
 
         // generate refresh token
-        const deletedToken = await deleteRefreshToken(
-            parsedBody.data.refreshToken
-        );
+        const deletedToken = await deleteRefresh(parsedBody.data.refreshToken);
         if (!deletedToken) {
             return res.status(400).json({ message: "Token not found" });
         }

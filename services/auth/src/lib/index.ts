@@ -1,7 +1,7 @@
 /** @format */
 import prisma from "@schemas/prisma";
 import { Role } from "@prisma/client";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const getExitingUser = async (email: string) => {
     const user = await prisma.user.findUnique({ where: { email } });
@@ -112,7 +112,7 @@ const updateVerificationCode = async (id: string) => {
     }
 };
 
-const createRefreshToken = async (data: {
+const createRefresh = async (data: {
     id: string;
     email: string;
     name: string;
@@ -129,27 +129,33 @@ const createRefreshToken = async (data: {
         { expiresIn: "7d" }
     );
 
-    /*     await prisma.refresh.create({
+    await prisma.refresh.create({
         data: {
             userId: data.id,
             email: data.email,
             token: refreshToken,
         },
-    }); */
+    });
 
     return refreshToken;
 };
 
-const deleteRefreshToken = async (token: string) => {
-    //find first refresh token
-    if (!token) {
-        return null;
-    }
+const getRefresh = async (token: string) => {
     const refreshToken = await prisma.refresh.findFirst({
         where: {
             token,
         },
     });
+    return refreshToken;
+};
+
+// delete refresh token
+const deleteRefresh = async (token: string) => {
+    //find first refresh token
+    if (!token) {
+        return null;
+    }
+    const refreshToken = await getRefresh(token);
     if (!refreshToken) {
         console.log("refresh token not found");
         return null;
@@ -163,10 +169,6 @@ const deleteRefreshToken = async (token: string) => {
     });
     return deletedRefreshToken;
 };
-const decodeUser = (token: string) => {
-    const user = jwt.verify(token, process.env.JWT_SECRET ?? "My_Secret_Key");
-    return user as JwtPayload;
-};
 
 export {
     getExitingUser,
@@ -175,7 +177,7 @@ export {
     getVerificationCode,
     updateUser,
     updateVerificationCode,
-    createRefreshToken,
-    deleteRefreshToken,
-    decodeUser,
+    createRefresh,
+    deleteRefresh,
+    getRefresh,
 };
