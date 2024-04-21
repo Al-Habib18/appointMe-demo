@@ -1,13 +1,12 @@
 /** @format */
 
 import { Response, Request } from "express";
-import { getExitingUser, createUser /*  generateHash  */ } from "@lib/index";
+import { getExitingUser, createUser, createVerifiactionCode } from "@lib/index";
 import { generateHash } from "@utils/index";
-import { UserCreateSchema } from "@schemas/userCreate";
-// import axios from "axios";
-// import { EMAIL_SERVICE, USER_SERVICE } from "@/config";
-
-// Type definition for user data (replace with your actual schema)
+import { sendToQueue } from "../utils/index";
+import { UserCreateSchema } from "@schemas/index";
+import axios from "axios";
+import { patient_service_url } from "@config/default";
 
 const registrationController = async (req: Request, res: Response) => {
     try {
@@ -31,15 +30,37 @@ const registrationController = async (req: Request, res: Response) => {
             ...parsedBody.data,
             password: hashedPassword,
         });
-        console.log("User created: ", user);
+        if (!user) {
+            return res.status(500).json({ message: "Error creating user__" });
+        }
+        console.log("User created__: ", user);
 
         // TODO: Implement user profile creation
-        //TODO: Implement verification logic
-        // TODO: call an mail servce to send an email
+        if (user.role === "PATIENT") {
+            // create the patient profile by patient the user service
+            await axios.post(`${patient_service_url}/patients`, {
+                auth_user_id: user.id,
+                name: user.name,
+                email: user.email,
+            });
+        }
+        //Implement verification logic
+        const verificationCode = await createVerifiactionCode(user.id);
+        if (!verificationCode) {
+            return res
+                .status(500)
+                .json({ message: "Error creating verification code" });
+        }
+
+        // call an mail servce to send an email
+        sendToQueue("registration", verificationCode);
+
+        console.log("verificatonCode : ", verificationCode);
 
         return res.status(201).json({
             message: "User created successfully",
             user,
+            Code: verificationCode,
         });
     } catch (error) {
         console.error("Error during registration:", error);

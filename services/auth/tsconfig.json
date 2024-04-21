@@ -35,7 +35,8 @@
             "@schemas/*": ["src/schemas/*"],
             "@utils/*": ["src/utils/*"],
             "@db/*": ["src/db/*"],
-            "@app/*": ["src/app/*"]
+            "@app/*": ["src/app/*"],
+            "@config/*": ["config/*"]
         }
     },
     "include": ["./src/**/*", "./config/**/*", "index.ts"],

@@ -18,6 +18,9 @@
         "prepare": "husky"
     },
     "dependencies": {
+        "@types/amqplib": "^0.10.5",
+        "@types/jsonwebtoken": "^9.0.6",
+        "amqplib": "^0.10.4",
         "axios": "^1.6.8",
         "bcryptjs": "^2.4.3",
         "config": "^3.3.11",

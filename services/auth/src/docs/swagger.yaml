@@ -12,8 +12,8 @@ info:
 
 servers:
     # Added by API Auto Mocking Plugin
-    - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/Al-Habib18/anchor_api/1.0.0
+    # - description: SwaggerHub API Auto Mocking
+    #   url: https://virtserver.swaggerhub.com/Al-Habib18/anchor_api/1.0.0
     - description: dev server
       url: http://localhost:4000
 
@@ -64,8 +64,8 @@ paths:
                                     example: pass123
                                 role:
                                     type: string
-                                    format: enum [patient,doctor,admin]
-                                    example: patient
+                                    enum: [PATIENT, DOCTOR, ADMIN]
+                                    default: PATIENT
                             required: [name, email, password]
             responses:
                 "201":
@@ -118,19 +118,17 @@ paths:
             tags: [Auth]
             requestBody:
                 content:
-                    "application/josn":
+                    "application/json":
                         schema:
                             type: object
                             properties:
                                 email:
                                     type: string
-                                    format: email
-                                    example: alamin@example.com
+                                    example: ah18bd@gmail.com
                                 password:
                                     type: string
-                                    format: password
                                     example: pass123
-                            required: [email, passsword]
+                            required: [email, password]
             responses:
                 "201":
                     description: login successfull
@@ -146,6 +144,9 @@ paths:
                                         type: object
                                         properties:
                                             access_token:
+                                                type: string
+                                                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                                            refresh_token:
                                                 type: string
                                                 example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
                                     links:
@@ -209,14 +210,14 @@ paths:
             tags: [Auth]
             requestBody:
                 content:
-                    "application/josn":
+                    "application/json":
                         schema:
                             type: object
                             properties:
-                                refresh_token:
+                                refreshToken:
                                     type: string
                                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-                            required: [refresh_token]
+                            required: [refreshToken]
             responses:
                 "201":
                     description: logout successfull
@@ -268,14 +269,18 @@ paths:
             tags: [Auth]
             requestBody:
                 content:
-                    "application/josn":
+                    "application/json":
                         schema:
                             type: object
                             properties:
+                                email:
+                                    type: string
+                                    format: email
+                                    example: ah18bd@gmail.com
                                 code:
                                     type: string
-                                    example: 23422
-                            required: [code]
+                                    example: pass123
+                            required: [email, code]
             responses:
                 "201":
                     description: verification successfull
