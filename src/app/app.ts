@@ -6,6 +6,8 @@ import path from "path";
 import swaggerUI from "swagger-ui-express";
 import YML from "yamljs";
 import router from "@routes/index";
+import { receiveFromQueue } from "../reciver";
+receiveFromQueue();
 
 const app: Application = express();
 app.use(express.json());
