@@ -8,7 +8,8 @@ import {
     updateVerificationCode,
     updateUser,
 } from "@lib/index";
-import { sendToQueue } from "@utils/index";
+import { sendToQueue } from "../sender/auth";
+import { default_email_sender } from "@config/default";
 // import { EMAIL_SERVICE } from "@/config";
 
 const verifyEmailController = async (
@@ -50,11 +51,23 @@ const verifyEmailController = async (
 
         // update user status to verified
         await updateUser(user.id);
+
         // update verification code status to used
         await updateVerificationCode(verificationCode.id);
 
+        //create mail option
+        const emailOption = {
+            from: default_email_sender || "alhabib@gmail.com",
+            to: user.email,
+            subject: "Email verification",
+            text: "Email verification successfull",
+            source: "email_verification",
+        };
+
         // send success email
-        sendToQueue("verification", "create mail option");
+        const exchacnge = "auth_exchange";
+        const queue = "verification";
+        sendToQueue(exchacnge, queue, emailOption);
 
         return res.status(200).json({ message: "Email verified successfully" });
     } catch (error) {

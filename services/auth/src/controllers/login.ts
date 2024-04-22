@@ -4,6 +4,7 @@ import { Response, Request } from "express";
 import { UserLoginSchema } from "@schemas/index";
 import { getExitingUser, createRefresh } from "@lib/index";
 import { hasMatched } from "@utils/index";
+import { sendToQueue } from "../sender/loginHistory";
 
 /* type LoginHistory = {
     userId: string;
@@ -18,9 +19,9 @@ const createLoginHistory = async (data: LoginHistory) => {
 
 const loginController = async (req: Request, res: Response) => {
     try {
-        // const ipAddress =
-        //     (req.headers["x-forwarded-for"] as string) || req.ip || "";
-        // const userAgent = req.headers["user-agent"] || "";
+        const ipAddress =
+            (req.headers["x-forwarded-for"] as string) || req.ip || "";
+        const userAgent = req.headers["user-agent"] || "";
 
         // Validate the request body
         const parsedBody = UserLoginSchema.safeParse(req.body);
@@ -37,18 +38,27 @@ const loginController = async (req: Request, res: Response) => {
         // compare password
         const isMatch = hasMatched(parsedBody.data.password, user.password);
 
+        const loginHistory = {
+            auth_user_id: user.id,
+            ip_address: ipAddress,
+            user_agent: userAgent,
+            attempt: "FAILED",
+        };
+
         if (!isMatch) {
-            //TODO: await createLoginHistory({
-        }
-
-        // check if the user is verified
-        if (!user.verified) {
-            //TODO: await createLoginHistory
-        }
-
-        // check if the account is active
-        if (user.status !== "ACTIVE") {
-            //TODO: await createLoginHistory
+            sendToQueue(loginHistory);
+            return res.status(400).json({ message: "Invalid cadentials" });
+        } else if (!user.verified) {
+            // check user is verified
+            sendToQueue(loginHistory);
+            return res.status(400).json({ message: "User not verified" });
+        } else if (user.status !== "ACTIVE") {
+            // check if the account is active
+            sendToQueue(loginHistory);
+            return res.status(400).json({ message: "User not active" });
+        } else {
+            loginHistory.attempt = "SUCCESS";
+            await sendToQueue(loginHistory);
         }
 
         // generate refresh token
@@ -58,8 +68,6 @@ const loginController = async (req: Request, res: Response) => {
             name: user.name,
             role: user.role,
         });
-
-        //TODO: Create login History with attemp = "succes"
 
         return res.status(200).json({
             message: "Login successful",

@@ -3,10 +3,10 @@
 import { Response, Request } from "express";
 import { getExitingUser, createUser, createVerifiactionCode } from "@lib/index";
 import { generateHash } from "@utils/index";
-import { sendToQueue } from "../utils/index";
+import { sendToQueue } from "../sender/auth";
 import { UserCreateSchema } from "@schemas/index";
 import axios from "axios";
-import { patient_service_url } from "@config/default";
+import { patient_service_url, default_email_sender } from "@config/default";
 
 const registrationController = async (req: Request, res: Response) => {
     try {
@@ -35,15 +35,16 @@ const registrationController = async (req: Request, res: Response) => {
         }
         console.log("User created__: ", user);
 
-        // TODO: Implement user profile creation
+        // Implement user profile creation
         if (user.role === "PATIENT") {
-            // create the patient profile by patient the user service
             await axios.post(`${patient_service_url}/patients`, {
                 auth_user_id: user.id,
                 name: user.name,
                 email: user.email,
             });
         }
+        //TODO: Implement Doctor profile creation
+
         //Implement verification logic
         const verificationCode = await createVerifiactionCode(user.id);
         if (!verificationCode) {
@@ -52,10 +53,19 @@ const registrationController = async (req: Request, res: Response) => {
                 .json({ message: "Error creating verification code" });
         }
 
-        // call an mail servce to send an email
-        sendToQueue("registration", verificationCode);
+        //create mail option
+        const emailOption = {
+            from: default_email_sender || "alhabib@gmail.com",
+            to: user.email,
+            subject: "user registration",
+            text: `Your Verification code is ${verificationCode}`,
+            source: "user_registration",
+        };
 
-        console.log("verificatonCode : ", verificationCode);
+        // call an mail servce to send an email
+        const exchacnge = "auth_exchange";
+        const queue = "registration";
+        sendToQueue(exchacnge, queue, emailOption);
 
         return res.status(201).json({
             message: "User created successfully",

@@ -3,7 +3,7 @@
 import { Response, Request } from "express";
 import { refreshTokenSchema } from "@schemas/index";
 import { deleteRefresh } from "@lib/index";
-import { decodeUser } from "@utils/index";
+import { decodeToken } from "@utils/index";
 
 const logoutController = async (req: Request, res: Response) => {
     try {
@@ -14,7 +14,7 @@ const logoutController = async (req: Request, res: Response) => {
         }
 
         //get decoded user
-        const decodedUser = decodeUser(parsedBody.data.refreshToken);
+        const decodedUser = decodeToken(parsedBody.data.refreshToken);
         if (decodedUser == null) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
