@@ -17,11 +17,14 @@ export const appointmentCreateScehma = z.object({
 });
 
 export const appintmentUpdateSchema = z.object({
-    status: z.nativeEnum(appointmentStatus).optional(),
     appointment_type: z.nativeEnum(appointmentType).optional(),
     payment_method: z.nativeEnum(paymentMethod).optional(),
     payment_status: z.nativeEnum(paymentStatus).optional(),
     appointment_date: z.date().optional(),
+});
+
+export const appintmentStatusUpdateSchema = z.object({
+    status: z.nativeEnum(appointmentStatus).optional(),
 });
 
 export const idParamSchema = z.string();

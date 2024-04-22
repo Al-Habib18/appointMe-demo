@@ -18,6 +18,9 @@ export const patient_service_url = process.env.PATIENT_SERVICE_URL;
 export const doctor_service_url = process.env.DOCTOR_SERVICE_URL;
 
 export const email_service_url = process.env.EMAIL_SERVICE_URL;
+
+export const default_email_sender =
+    process.env.DEFAULT_EMAIL_SENDER || "alhabib@gmail.com";
 /* 
 
    */

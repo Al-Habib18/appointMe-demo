@@ -3,6 +3,8 @@
 import { Response, Request } from "express";
 import { createAppointment } from "@lib/index";
 import { appointmentCreateScehma } from "@schemas/index";
+import { sendToQueue } from "@utils/index";
+import { default_email_sender } from "@config/default";
 
 const createController = async (req: Request, res: Response) => {
     try {
@@ -23,17 +25,22 @@ const createController = async (req: Request, res: Response) => {
         });
         console.log("appintment created: ", appintment);
 
-        // TODO: Implement user profile creation
-        // if (user.role === "PATIENT") {
-        //     // create the patient profile by patient the user service
-        //     await axios.post(`${patient_service_url}/patients`, {
-        //         auth_user_id: user.id,
-        //         name: user.name,
-        //         email: user.email,
-        //     });
-        // }
-        //TODO: Implement verification logic
-        // TODO: call an mail servce to send an email
+        const emailOption = {
+            from: default_email_sender || "alhabib@gmail.com",
+            to: "",
+            subject: "appointment creation",
+            text: "you have success fully created a appointment",
+            source: "appointment_create",
+        };
+
+        //send email to patient
+        emailOption.to = "ashik@gmail.com";
+        await sendToQueue(emailOption);
+
+        // send email doctor
+        emailOption.to = "raisul@gmail.com";
+        emailOption.text = "A new appointment created with you.Plese check it";
+        await sendToQueue(emailOption);
 
         return res.status(201).json({
             message: "Appointment created successfully",
