@@ -4,10 +4,10 @@ import { z } from "zod";
 import { emailStatus, emailSource } from "@prisma/client";
 
 export const createEmailSchema = z.object({
-    sender: z.string().email(),
-    recipient: z.string().email(),
+    from: z.string().email(),
+    to: z.string().email(),
     subject: z.string(),
-    body: z.string(),
+    text: z.string(),
     source: z.nativeEnum(emailSource).optional(),
     statue: z.nativeEnum(emailStatus).optional(),
 });

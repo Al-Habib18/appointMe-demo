@@ -15,24 +15,25 @@ datasource db {
 }
 
 enum emailStatus {
-  SUCCESS
-  FAILED
+  success 
+  failed
 }
 
 enum emailSource {
-  ACCOUNT_ACTIVATION
-  PASSWORD_RESET
-  EMAIL_CHANGE
-  TWO_FACTOR_AUTH
-  TWO_FACTOR_AUTH_DISABLE
+  user_registration
+  account_activation
+  password_reset
+  email_change
+  appointment_create
+  appointment_update
 }
 model Email {
   id        String  @id @default(cuid())
-  sender    String
-  recipient String
+  from      String
+  to        String
   subject   String
-  body      String
-  source    emailSource @default(ACCOUNT_ACTIVATION)
-  status    emailStatus @default(SUCCESS)
+  text      String
+  source    emailSource @default(user_registration)
+  status    emailStatus @default(success)
   createdAt DateTime    @default(now())
 }

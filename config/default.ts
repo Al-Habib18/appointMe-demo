@@ -9,4 +9,4 @@ export default {
     name: "logiin History Service",
 };
 
-export const defaultSender = process.env.DEFAULT_SENDER;
+export const defaultSender = process.env.DEFAULT_SENDER || "alhabib@gmail.com";

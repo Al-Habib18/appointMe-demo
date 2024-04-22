@@ -6,29 +6,29 @@ import { emailSource, emailStatus } from "@prisma/client";
 
 // create a new email
 const createEmail = async (data: {
-    sender: string;
-    recipient: string;
+    from: string;
+    to: string;
     subject: string;
-    body: string;
+    text: string;
     source?: emailSource | undefined;
     status?: emailStatus | undefined;
 }) => {
     try {
         const email = await prisma.email.create({
             data: {
-                sender: data.sender,
-                recipient: data.recipient,
+                from: data.from,
+                to: data.to,
                 subject: data.subject,
-                body: data.body,
+                text: data.text,
                 source: data.source,
                 status: data.status,
             },
             select: {
                 id: true,
-                sender: true,
-                recipient: true,
+                from: true,
+                to: true,
                 subject: true,
-                body: true,
+                text: true,
                 source: true,
                 status: true,
                 createdAt: true,

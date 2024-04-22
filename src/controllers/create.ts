@@ -2,8 +2,8 @@
 
 import { Response, Request } from "express";
 import { createEmailSchema } from "../schemas/index";
-import { createEmail } from "../lib/index";
 import { defaultSender } from "../../config/default";
+import { sendAuthMail } from "../recivers/create";
 
 const createController = async (req: Request, res: Response) => {
     try {
@@ -16,15 +16,22 @@ const createController = async (req: Request, res: Response) => {
             return res.status(400).json({ errors: parsedBody.error.errors });
         }
 
-        // if (!parsedBody.data.sender) {
-        //     parsedBody.data.sender = defaultSender;
-        // }
+        //create mail option
+        const { from, to, subject, text } = parsedBody.data;
+        const emailOption = {
+            from,
+            to,
+            subject,
+            text,
+        };
+        const email = sendAuthMail(emailOption);
+
         // Create the email
-        const email = await createEmail(parsedBody.data);
+
         console.log("email created: ", email);
 
         return res.status(201).json({
-            message: "Email created successfully",
+            message: "Email sent successfully",
             email,
         });
     } catch (error) {

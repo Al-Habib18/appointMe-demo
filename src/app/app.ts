@@ -6,6 +6,7 @@ import path from "path";
 import swaggerUI from "swagger-ui-express";
 import YML from "yamljs";
 import router from "../routes/index";
+import { callRecivers } from "../recivers/index";
 
 const app: Application = express();
 app.use(express.json());
@@ -23,5 +24,8 @@ app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.get("/health", (_req, res) => {
     res.status(200).json({ message: "UP" });
 });
+
+//call all recivers
+callRecivers();
 
 export default app;
