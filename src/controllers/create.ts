@@ -18,10 +18,8 @@ const createController = async (req: Request, res: Response) => {
 
         // Create the auth user
         const appintment = await createAppointment({
-            patient_id: parsedBody.data.patient_id,
-            doctor_id: parsedBody.data.doctor_id,
+            ...parsedBody.data,
             appointment_date: new Date(parsedBody.data.appointment_date),
-            fee: parsedBody.data.fee,
         });
         console.log("appintment created: ", appintment);
 

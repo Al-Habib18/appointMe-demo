@@ -1,4 +1,5 @@
 /** @format */
+import { appointmentType, paymentMethod, paymentStatus } from "@prisma/client";
 import prisma from "@schemas/prisma";
 
 const getAllAppointments = async (data: {
@@ -48,7 +49,7 @@ const createAppointment = async (data: {
             appointment_type: true,
             status: true,
             payment_method: true,
-            payement_status: true,
+            payment_status: true,
             location: true,
             created_at: true,
         },
@@ -65,6 +66,65 @@ const findById = async (id: string) => {
         return appointment;
     } catch (error) {
         console.error("Error getting appointment:", error);
+        return null;
+    }
+};
+
+const updateById = async (
+    id: string,
+    data: {
+        appointment_type?: appointmentType | undefined;
+        payment_method?: paymentMethod | undefined;
+        payment_status?: paymentStatus | undefined;
+        appointment_date?: Date | undefined;
+    }
+) => {
+    try {
+        const appintment = await findById(id);
+        if (!appintment) {
+            throw new Error("Appointment doesn't exist");
+        }
+        const dataToUpdate = {
+            appointment_type: data.appointment_type
+                ? data.appointment_type
+                : appintment.appointment_type,
+            payment_method: data.payment_method
+                ? data.payment_method
+                : appintment.payment_method,
+            payment_status: data.payment_status
+                ? data.payment_status
+                : appintment.payment_status,
+            appointment_date: data.appointment_date
+                ? data.appointment_date
+                : appintment.appointment_date,
+        };
+
+        const updatedAppointment = await prisma.appointment.update({
+            where: {
+                id: id,
+            },
+            data: dataToUpdate,
+            select: {
+                id: true,
+                patient_id: true,
+                patient_name: true,
+                patient_email: true,
+                doctor_id: true,
+                doctor_name: true,
+                doctor_email: true,
+                fee: true,
+                appointment_date: true,
+                appointment_type: true,
+                status: true,
+                payment_method: true,
+                payment_status: true,
+                location: true,
+                created_at: true,
+            },
+        });
+        return updatedAppointment;
+    } catch (error) {
+        console.log("Error updating patient:", error);
         return null;
     }
 };
@@ -141,4 +201,5 @@ export {
     deleteById,
     findAllByPatientId,
     findAllByDoctorId,
+    updateById,
 };

@@ -313,16 +313,6 @@ paths:
                         schema:
                             type: object
                             properties:
-                                status:
-                                    type: string
-                                    enum:
-                                        [
-                                            pending,
-                                            confirmed,
-                                            completed,
-                                            cancelled,
-                                        ]
-                                    example: pending
                                 appointment_type:
                                     type: string
                                     enum:
@@ -345,9 +335,6 @@ paths:
                                     enum:
                                         - true
                                         - false
-                                location:
-                                    type: string
-                                    example: Update Health Care, Rangpur
             responses:
                 "200":
                     description: update successful

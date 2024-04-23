@@ -52,7 +52,7 @@ model Appointment {
   appointment_type appointmentType    @default(consultation)
   status           appointmentStatus  @default(pending)
   payment_method   paymentMethod      @default(hand_cash)
-  payement_status  paymentStatus      @default(false)
+  payment_status  paymentStatus      @default(false)
   appointment_date DateTime
   location         String?
   created_at       DateTime   @default(now())
