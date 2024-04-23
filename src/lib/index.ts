@@ -1,5 +1,10 @@
 /** @format */
-import { appointmentType, paymentMethod, paymentStatus } from "@prisma/client";
+import {
+    appointmentStatus,
+    appointmentType,
+    paymentMethod,
+    paymentStatus,
+} from "@prisma/client";
 import prisma from "@schemas/prisma";
 
 const getAllAppointments = async (data: {
@@ -129,6 +134,48 @@ const updateById = async (
     }
 };
 
+const updateStatus = async (
+    id: string,
+    appointment_status: appointmentStatus
+) => {
+    try {
+        const appintment = await findById(id);
+        if (!appintment) {
+            throw new Error("Appointment doesn't exist");
+        }
+
+        const updatedAppointment = await prisma.appointment.update({
+            where: {
+                id: id,
+            },
+            data: {
+                status: appointment_status,
+            },
+            select: {
+                id: true,
+                patient_id: true,
+                patient_name: true,
+                patient_email: true,
+                doctor_id: true,
+                doctor_name: true,
+                doctor_email: true,
+                fee: true,
+                appointment_date: true,
+                appointment_type: true,
+                status: true,
+                payment_method: true,
+                payment_status: true,
+                location: true,
+                created_at: true,
+            },
+        });
+        return updatedAppointment;
+    } catch (error) {
+        console.log("Error updating patient:", error);
+        return null;
+    }
+};
+
 const deleteById = async (id: string) => {
     try {
         // delete the appointment
@@ -202,4 +249,5 @@ export {
     findAllByPatientId,
     findAllByDoctorId,
     updateById,
+    updateStatus,
 };

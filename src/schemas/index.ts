@@ -23,9 +23,7 @@ export const appintmentUpdateSchema = z.object({
     appointment_date: z.date().optional(),
 });
 
-export const appintmentStatusUpdateSchema = z.object({
-    status: z.nativeEnum(appointmentStatus).optional(),
-});
+export const appintmentStatusUpdateSchema = z.nativeEnum(appointmentStatus);
 
 export const idParamSchema = z.string();
 

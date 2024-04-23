@@ -1,4 +1,4 @@
-/** @format */
+
 
 import { updateById } from "@lib/index";
 import { idParamSchema, appintmentUpdateSchema } from "@schemas/index";
