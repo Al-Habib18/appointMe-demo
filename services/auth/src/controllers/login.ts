@@ -6,17 +6,6 @@ import { getExitingUser, createRefresh } from "@lib/index";
 import { hasMatched } from "@utils/index";
 import { sendToQueue } from "../sender/loginHistory";
 
-/* type LoginHistory = {
-    userId: string;
-    userAgent: string | undefined;
-    ipAddress: string | undefined;
-    attempt: LoginAttempt;
-};
-
-const createLoginHistory = async (data: LoginHistory) => {
-    
-} */
-
 const loginController = async (req: Request, res: Response) => {
     try {
         const ipAddress =

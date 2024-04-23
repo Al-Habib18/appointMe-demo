@@ -6,7 +6,11 @@ import { generateHash } from "@utils/index";
 import { sendToQueue } from "../sender/auth";
 import { UserCreateSchema } from "@schemas/index";
 import axios from "axios";
-import { patient_service_url, default_email_sender } from "@config/default";
+import {
+    patient_service_url,
+    doctor_service_url,
+    default_email_sender,
+} from "@config/default";
 
 const registrationController = async (req: Request, res: Response) => {
     try {
@@ -43,7 +47,14 @@ const registrationController = async (req: Request, res: Response) => {
                 email: user.email,
             });
         }
-        //TODO: Implement Doctor profile creation
+        // Implement Doctor profile creation
+        if (user.role === "DOCTOR") {
+            await axios.post(`${doctor_service_url}/doctors`, {
+                auth_user_id: user.id,
+                name: user.name,
+                email: user.email,
+            });
+        }
 
         //Implement verification logic
         const verificationCode = await createVerifiactionCode(user.id);
