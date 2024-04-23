@@ -2,6 +2,7 @@
 
 import { updateStatus } from "@lib/index";
 import { idParamSchema, appintmentStatusUpdateSchema } from "@schemas/index";
+import { sendToQueue } from "@utils/index";
 import { Response, Request } from "express";
 
 const updateController = async (req: Request, res: Response) => {
@@ -28,15 +29,26 @@ const updateController = async (req: Request, res: Response) => {
             });
         }
 
-        // update the appointment
-        const appintmentStatus = await updateStatus(
-            parsedId.data,
-            paresedBody.data
-        );
+        // update the appointment Staus
+        const appointment = await updateStatus(parsedId.data, paresedBody.data);
+
+        if (!appointment) {
+            throw new Error("appointment updete failed");
+        }
+
+        const emailOption = {
+            from: "alhabib@gmail.com",
+            to: appointment.patient_email,
+            subject: "Appointment Status",
+            text: `Your Appointment with ${appointment.doctor_name} on ${appointment.appointment_date} has been ${appointment.status}`,
+            source: "appointment_update",
+        };
+        //TODO: send email to patinet
+        sendToQueue(emailOption);
 
         return res.status(200).json({
             message: "All appointments updated successfully",
-            appintmentStatus,
+            appointment,
         });
     } catch (error) {
         console.error("Error during updating Appointment:", error);

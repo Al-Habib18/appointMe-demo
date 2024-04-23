@@ -1,4 +1,4 @@
-
+/** @format */
 
 import { updateById } from "@lib/index";
 import { idParamSchema, appintmentUpdateSchema } from "@schemas/index";
@@ -30,6 +30,10 @@ const updateController = async (req: Request, res: Response) => {
             parsedId.data,
             paresedBody.data
         );
+
+        if (!updatedAppointment) {
+            throw new Error("appointment updete failed");
+        }
 
         return res.status(200).json({
             message: "All appointments updated successfully",

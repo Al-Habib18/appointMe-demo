@@ -32,14 +32,18 @@ const getAllAppointments = async (data: {
 // create a new appointment
 const createAppointment = async (data: {
     patient_id: string;
+    patient_email: string;
     doctor_id: string;
+    doctor_email: string;
     appointment_date: Date;
     fee: number;
 }) => {
     const appintment = await prisma.appointment.create({
         data: {
             patient_id: data.patient_id,
+            patient_email: data.patient_email,
             doctor_id: data.doctor_id,
+            doctor_email: data.doctor_email,
             appointment_date: data.appointment_date,
             fee: data.fee,
         },

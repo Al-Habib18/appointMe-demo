@@ -10,7 +10,9 @@ import {
 
 export const appointmentCreateScehma = z.object({
     patient_id: string(),
+    patient_email: string(),
     doctor_id: string(),
+    doctor_email: string(),
     fee: z.number(),
     appointment_type: z.nativeEnum(appointmentType),
     appointment_date: z.string(),

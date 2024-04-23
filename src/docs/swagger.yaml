@@ -30,9 +30,16 @@ paths:
                                 patient_id:
                                     type: string
                                     example: ksf12kdfh23kd23
+                                patient_email:
+                                    type: string
+                                    format: email
                                 doctor_id:
                                     type: string
                                     example: ksf12kdfh23kd23
+                                doctor_email:
+                                    type: string
+                                    format: email
+                                    example: raisul@gamil.com
                                 fee:
                                     type: number
                                     example: 500
