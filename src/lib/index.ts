@@ -218,6 +218,60 @@ const findAllByPatientId = async (
     }
 };
 
+// retrive all upcomming appointments of a patient
+const getUpcomingAppointmentsByPatientId = async (
+    id: string,
+    data: {
+        limit?: number | undefined;
+        page?: number | undefined;
+        sortType?: string | undefined;
+    }
+) => {
+    try {
+        if (data.page === undefined) data.page = 1;
+        if (data.limit === undefined) data.limit = 10;
+        if (data.sortType === undefined) data.sortType = "asc";
+
+        const patientAppointments = await prisma.appointment.findMany({
+            where: { patient_id: id, status: "confirmed" },
+            skip: data.limit * (data.page - 1) || 0,
+            take: data.limit || 10,
+            orderBy: { id: data.sortType === "asc" ? "asc" : "desc" },
+        });
+        return patientAppointments;
+    } catch (error) {
+        console.error("Error getting appointment:", error);
+        return null;
+    }
+};
+
+// retrive all upcomming appointments of a doctor
+const getUpcomingAppointmentsByDoctortId = async (
+    id: string,
+    data: {
+        limit?: number | undefined;
+        page?: number | undefined;
+        sortType?: string | undefined;
+    }
+) => {
+    try {
+        if (data.page === undefined) data.page = 1;
+        if (data.limit === undefined) data.limit = 10;
+        if (data.sortType === undefined) data.sortType = "asc";
+
+        const patientAppointments = await prisma.appointment.findMany({
+            where: { patient_id: id, status: "confirmed" },
+            skip: data.limit * (data.page - 1) || 0,
+            take: data.limit || 10,
+            orderBy: { id: data.sortType === "asc" ? "asc" : "desc" },
+        });
+        return patientAppointments;
+    } catch (error) {
+        console.error("Error getting appointment:", error);
+        return null;
+    }
+};
+
 // retrive all appointment by patient id
 const findAllByDoctorId = async (
     id: string,
@@ -254,4 +308,6 @@ export {
     findAllByDoctorId,
     updateById,
     updateStatus,
+    getUpcomingAppointmentsByPatientId,
+    getUpcomingAppointmentsByDoctortId,
 };

@@ -11,4 +11,8 @@ export { default as statusController } from "./statusUpdate";
 
 export { default as findAllByPatientIdController } from "./findByPatientId";
 export { default as findAllByDoctorIdController } from "./findByDoctorId";
+
+export { default as upcomingOfDoctorController } from "./upcomingOfDoctor";
+export { default as upcomingOfPatientController } from "./upcommingOfPatient";
+
 export { default as deleteAllController } from "./deleteAll";
