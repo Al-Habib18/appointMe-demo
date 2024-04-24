@@ -25,6 +25,7 @@
         "module-alias": "^2.2.3",
         "morgan": "^1.10.0",
         "sslcommerz": "^1.7.0",
+        "sslcommerz-lts": "^1.1.0",
         "swagger-ui-express": "^5.0.0",
         "yamljs": "^0.3.0",
         "zod": "^3.22.4"

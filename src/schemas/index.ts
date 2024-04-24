@@ -12,5 +12,4 @@ export const queryParamsSchema = z.object({
 
 export const paymentCreateSchema = z.object({
     appointment_id: z.string(),
-    amount: z.number().positive(),
 });

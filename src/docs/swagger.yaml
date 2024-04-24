@@ -27,10 +27,7 @@ paths:
                                 appointment_id:
                                     type: string
                                     example: ksf12kdfh23kd23
-                                amount:
-                                    type: number
-                                    example: 1200
-                            required: [appointment_id, amount]
+                            required: [appointment_id]
             responses:
                 "201":
                     description: payment create successful
@@ -201,7 +198,7 @@ paths:
                 "500":
                     $ref: "#/components/responses/500"
 
-    /payments/appointment/{appointment_id}:
+    /payments/appointments/{appointment_id}:
         get:
             tags: [Payment]
             description: retrive payment by appointment id

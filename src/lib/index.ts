@@ -3,18 +3,23 @@
 import prisma from "@schemas/prisma";
 import { PaymentStatus } from "@prisma/client";
 
-export interface Payment {
+interface Payment {
     id: string;
     appointment_id: string;
     transaction_id: string;
     amount: number;
+    store_amount: number;
+    card_type: String;
     status: PaymentStatus;
     created_at: Date;
 }
 
 export const paymentCreate = async (data: {
     appointment_id: string;
+    transaction_id: string;
     amount: number;
+    store_amount: number;
+    card_type: string;
 }) => {
     try {
         const payment: Payment = await prisma.payment.create({
@@ -27,13 +32,12 @@ export const paymentCreate = async (data: {
     }
 };
 
-// find by appointment id
-export const getPaidPaymentByAppointmentId = async (appointment_id: string) => {
+// retrive a paid payment by appointment_id
+export const getPaymentByAppointmentId = async (appointment_id: string) => {
     try {
         const payment: Payment | null = await prisma.payment.findFirst({
             where: {
                 appointment_id,
-                status: "SUCCEED",
             },
         });
         return payment;
@@ -71,6 +75,18 @@ export const findById = async (id: string) => {
             where: { id },
         });
         return payment;
+    } catch (error) {
+        console.error("Error getting patient:", error);
+        return null;
+    }
+};
+
+export const deletePayment = async (id: string) => {
+    try {
+        const deletedpayment = await prisma.payment.delete({
+            where: { id },
+        });
+        return deletedpayment;
     } catch (error) {
         console.error("Error getting patient:", error);
         return null;

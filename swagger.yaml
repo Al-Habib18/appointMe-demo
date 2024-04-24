@@ -30,13 +30,10 @@ paths:
                                 appointment_id:
                                     type: string
                                     example: ksf12kdfh23kd23
-                                payment_by:
-                                    type: string
-                                    enum: [bkash, nagad, roket]
                                 amount:
                                     type: number
                                     example: 1200
-                            required: [appointment_id, payment_ty, amount]
+                            required: [appointment_id, amount]
             responses:
                 "201":
                     description: Patient Registration successful

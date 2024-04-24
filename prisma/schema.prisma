@@ -19,11 +19,13 @@ enum PaymentStatus {
 }
   
 model Payment {
-  id              String    @id @default(cuid()) 
-  appointment_id  String   
+  id              String  @id @default(cuid()) 
+  appointment_id  String      @unique 
+  transaction_id  String        @unique
   amount          Float     
-  transaction_id  String    @default(cuid()) 
-  status      PaymentStatus @default(SUCCEED)
-  created_at      DateTime  @default(now())
+  store_amount    Float
+  card_type       String
+  status          PaymentStatus @default(SUCCEED)
+  created_at      DateTime      @default(now())
 }
 

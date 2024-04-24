@@ -1,10 +1,10 @@
 /** @format */
 import { Response, Request } from "express";
-import { findById } from "@lib/index";
+import { getPaymentByAppointmentId } from "@lib/index";
 import { idParamSchema } from "@schemas/index";
-import { badRequest } from "@utils/error";
+import { badRequest, notFound } from "@utils/error";
 
-const findByIdController = async (req: Request, res: Response) => {
+const findByAppointmentIdController = async (req: Request, res: Response) => {
     try {
         // Validate the request params
         const id = req.params.id;
@@ -13,20 +13,20 @@ const findByIdController = async (req: Request, res: Response) => {
             throw badRequest("invalid id");
         }
         // Check if the user already exists
-        const payment = await findById(pareseId.data);
+        const payment = await getPaymentByAppointmentId(pareseId.data);
         if (!payment) {
-            return res.status(404).json({ message: "Payment not found" });
+            throw notFound("Payment not found");
         }
         return res
             .status(200)
             .json({ message: "Payment retrive succesfull", payment });
     } catch (error) {
-        console.error("Error during retring payment:", error);
+        console.error("Error during retriving payment:", error);
         // Handle error and return appropriate response to client
         return res
             .status(500)
-            .json({ message: "Error during retriving payment" });
+            .json({ message: "Error during retriving payment:" });
     }
 };
 
-export default findByIdController;
+export default findByAppointmentIdController;
