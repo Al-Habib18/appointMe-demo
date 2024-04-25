@@ -19,19 +19,19 @@ enum GenderType {
 }
 model Doctor {
     id              String @id @default(cuid())
-    auth_user_id    String @unique
+    auth_user_id    String    @unique
     name            String
-    email           String @unique
-    license         String @unique
-    specialty       String
+    email           String    @unique
+    license         String?    @unique
+    specialty       String?
     phone           String?
     profile_picture String?
     bio             String?
-    years_of_experience Int @default(0)
+    years_of_experience Int   @default(0)
     hospital_affliation String?
     availability    DateTime?
-    createdAt       DateTime @default(now())
-    updatedAt       DateTime @updatedAt
+    createdAt       DateTime  @default(now())
+    updatedAt       DateTime  @updatedAt
 
 @@index([auth_user_id])
 }

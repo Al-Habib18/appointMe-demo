@@ -5,15 +5,21 @@ import { countTotal, getAllDoctor } from "@lib/index";
 import { queryParamsSchema } from "@schemas/index";
 import { getPagination } from "@utils/pagination";
 import { getHATEOAS } from "@utils/hateos";
+import {
+    getExistingKey,
+    setDoctors,
+    getDoctors,
+    // deleteKey,
+} from "@utils/redis";
 
 const getAllController = async (req: Request, res: Response) => {
     try {
         // Validate the request params
         let { limit, page, sortType } = req.query;
-        const defaultLimit = Number(limit);
-        const defaultPage = Number(page);
-
+        const defaultLimit = Number(limit) || 10;
+        const defaultPage = Number(page) || 1;
         if (!sortType) sortType = "asc";
+
         const parsedParams = queryParamsSchema.safeParse({
             limit: defaultLimit,
             page: defaultPage,
@@ -28,9 +34,31 @@ const getAllController = async (req: Request, res: Response) => {
 
         const { data } = parsedParams;
         // retrive all patients
-        const patients = await getAllDoctor({ ...data });
-        const totalItems = await countTotal();
 
+        //TODO: chach doctor...
+        const key = defaultPage + "-" + defaultLimit + "-" + sortType;
+
+        let doctors: any;
+        const isExist = await getExistingKey(key);
+        if (isExist) {
+            const serializedDoctors = await getDoctors(key); // retrive from redis
+            if (serializedDoctors == null) {
+                doctors = [];
+            } else {
+                doctors = JSON.parse(serializedDoctors);
+            }
+
+            console.log("Cache Hit .");
+            // await deleteKey(key);
+        } else {
+            doctors = await getAllDoctor({ ...data }); // retrive from database
+        }
+
+        const serializedDoctors = JSON.stringify(doctors);
+        await setDoctors(key, serializedDoctors);
+        console.log("Doctore set in key ::", key);
+
+        const totalItems = await countTotal();
         const pagination = getPagination(totalItems, defaultLimit, defaultPage);
         const links = getHATEOAS({
             url: req.url,
@@ -42,14 +70,16 @@ const getAllController = async (req: Request, res: Response) => {
         });
 
         return res.status(201).json({
-            message: "Patient retrive successfully",
-            patients,
+            message: "Doctors retrive successfully",
+            doctors,
             pagination,
             links,
         });
     } catch (error) {
-        console.error("Error during registration:", error);
-        return res.status(500).json({ message: "Error creating Patient" });
+        console.error("Error during retriving all doctors:", error);
+        return res
+            .status(500)
+            .json({ message: "Error during retriving all doctors" });
     }
 };
 

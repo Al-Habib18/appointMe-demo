@@ -3,10 +3,6 @@
 import { Response, Request } from "express";
 import { getExitingDoctor, createDoctor } from "@lib/index";
 import { doctorCreateSchema } from "@schemas/index";
-// import axios from "axios";
-// import { EMAIL_SERVICE, USER_SERVICE } from "@/config";
-
-// Type definition for user data (replace with your actual schema)
 
 const createController = async (req: Request, res: Response) => {
     try {
@@ -15,14 +11,13 @@ const createController = async (req: Request, res: Response) => {
         if (!parsedBody.success) {
             return res.status(400).json({ errors: parsedBody.error.errors });
         }
-
         // Check if the user already exists
         const existingPatient = await getExitingDoctor(parsedBody.data.email);
         if (existingPatient) {
             return res.status(400).json({ message: "Email already exists" });
         }
         // Create the auth user
-        const patient = await createDoctor(parsedBody.data);
+        const patient = await createDoctor(req.body);
         console.log("Doctor created: ", patient);
 
         return res.status(201).json({

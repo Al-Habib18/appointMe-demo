@@ -5,9 +5,9 @@ import { z } from "zod";
 export const idParamSchema = z.string();
 
 export const queryParamsSchema = z.object({
-    limit: z.number().positive().optional(), // Optional positive integer
-    page: z.number().positive().optional(), // Optional positive integer
-    sortType: z.string().optional(), // Optional string
+    limit: z.number().positive().max(50).optional(),
+    page: z.number().positive().min(1).optional(),
+    sortType: z.string().optional(),
 });
 
 export const doctorCreateSchema = z.object({
@@ -17,11 +17,13 @@ export const doctorCreateSchema = z.object({
     license: z
         .string({ required_error: "license is required" })
         .min(3)
-        .max(255),
+        .max(255)
+        .optional(),
     specialty: z
         .string({ required_error: "specialty is required" })
         .min(3)
-        .max(255),
+        .max(255)
+        .optional(),
     phone: z
         .string()
         .min(11)
