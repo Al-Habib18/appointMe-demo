@@ -3,10 +3,6 @@
 import { Response, Request } from "express";
 import { findById } from "@lib/index";
 import { idParamSchema } from "@schemas/index";
-// import axios from "axios";
-// import { EMAIL_SERVICE, USER_SERVICE } from "@/config";
-
-// Type definition for user data (replace with your actual schema)
 
 const findByIdcontroller = async (req: Request, res: Response) => {
     try {
@@ -20,6 +16,11 @@ const findByIdcontroller = async (req: Request, res: Response) => {
         }
         // retrive a simgle doctor
         const doctor = await findById(parsedId.data);
+        if (!doctor) {
+            return res.status(404).json({
+                message: "Doctor Doesn't Found",
+            });
+        }
 
         return res.status(201).json({
             message: "doctor retrive successfully",

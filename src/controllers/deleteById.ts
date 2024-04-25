@@ -3,10 +3,7 @@
 import { Response, Request } from "express";
 import { deleteById, findById } from "@lib/index";
 import { idParamSchema } from "@schemas/index";
-// import axios from "axios";
-// import { EMAIL_SERVICE, USER_SERVICE } from "@/config";
 
-// Type definition for user data (replace with your actual schema)
 
 const deleteController = async (req: Request, res: Response) => {
     try {

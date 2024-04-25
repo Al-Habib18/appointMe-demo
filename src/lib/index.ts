@@ -164,6 +164,10 @@ const deleteById = async (id: string) => {
         return null;
     }
 };
+
+const countTotal = async () => {
+    return prisma.doctor.count();
+};
 export {
     getExitingDoctor,
     createDoctor,
@@ -171,4 +175,5 @@ export {
     findById,
     updateById,
     deleteById,
+    countTotal,
 };

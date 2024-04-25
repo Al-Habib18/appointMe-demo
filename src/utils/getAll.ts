@@ -1,7 +1,7 @@
 /** @format */
 
 import { Response, Request } from "express";
-import { countTotal, getAllDoctor } from "@lib/index";
+import { getAllLoginHistory, getTotal } from "@lib/index";
 import { queryParamsSchema } from "@schemas/index";
 import { getPagination } from "@utils/pagination";
 import { getHATEOAS } from "@utils/hateos";
@@ -27,9 +27,9 @@ const getAllController = async (req: Request, res: Response) => {
         }
 
         const { data } = parsedParams;
-        // retrive all patients
-        const patients = await getAllDoctor({ ...data });
-        const totalItems = await countTotal();
+        // retrive all login_histories
+        const login_histories = await getAllLoginHistory({ ...data });
+        const totalItems = await getTotal();
 
         const pagination = getPagination(totalItems, defaultLimit, defaultPage);
         const links = getHATEOAS({
@@ -42,14 +42,16 @@ const getAllController = async (req: Request, res: Response) => {
         });
 
         return res.status(201).json({
-            message: "Patient retrive successfully",
-            patients,
+            message: "login_histories retrive successful",
+            login_histories,
             pagination,
             links,
         });
     } catch (error) {
-        console.error("Error during registration:", error);
-        return res.status(500).json({ message: "Error creating Patient" });
+        console.error("Error during retriving login_histories:", error);
+        return res
+            .status(500)
+            .json({ message: "Error creating login_histories" });
     }
 };
 
