@@ -1,7 +1,7 @@
 /** @format */
 
 import amqp from "amqplib";
-import { createLoginHistory } from "./lib";
+import { createLoginHistory } from "../lib";
 export const receiveFromQueue = async () => {
     const connection = await amqp.connect("amqp://guest:guest@172.17.0.1:5672");
     const channel = await connection.createChannel();

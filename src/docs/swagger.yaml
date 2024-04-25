@@ -193,12 +193,15 @@ paths:
                     $ref: "#/components/responses/400"
                 "500":
                     $ref: "#/components/responses/500"
-    /login-histories/{user_id}:
+    /login-histories/users/{user_id}:
         get:
             tags: [Login History]
             description: retrive login History by user id
             parameters:
                 - $ref: "#/components/parameters/userIdPathParam"
+                - $ref: "#/components/parameters/pageParam"
+                - $ref: "#/components/parameters/limitParam"
+                - $ref: "#/components/parameters/sortByparam"
 
             responses:
                 "200":

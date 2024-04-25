@@ -1,21 +1,29 @@
 /** @format */
 
 import { Response, Request } from "express";
-import { getAllLoginHistory, getTotal } from "@lib/index";
+import { getLoginHistoryByUserId } from "@lib/index";
 import { queryParamsSchema } from "@schemas/index";
-import { getPagination } from "@utils/pagination";
-import { getHATEOAS } from "@utils/hateos";
 
-const getAllController = async (req: Request, res: Response) => {
+const getLoginHistoryByUserIdController = async (
+    req: Request,
+    res: Response
+) => {
     try {
         // Validate the request params
         let { limit, page, sortType } = req.query;
-        const defaultlimit = Number(limit);
-        const defaultPage = Number(page);
+        const { user_id } = req.params;
+
+        let defaultLimit;
+        if (!limit) defaultLimit = 10;
+        else defaultLimit = Number(limit);
+
+        let defaultPage;
+        if (!page) defaultLimit = 1;
+        else defaultPage = Number(page);
 
         if (!sortType) sortType = "asc";
         const parsedParams = queryParamsSchema.safeParse({
-            limit: defaultlimit,
+            limit: defaultLimit,
             page: defaultPage,
             sortType: sortType,
         });
@@ -28,24 +36,13 @@ const getAllController = async (req: Request, res: Response) => {
 
         const { data } = parsedParams;
         // retrive all login_histories
-        const login_histories = await getAllLoginHistory({ ...data });
-        const totalItems = await getTotal();
-
-        const pagination = getPagination(totalItems, defaultlimit, defaultPage);
-        const links = getHATEOAS({
-            url: req.url,
-            path: req.path,
-            query: req.query,
-            hasNext: !!pagination.next,
-            hasPrev: !!pagination.prev,
-            page: defaultPage,
+        const login_histories = await getLoginHistoryByUserId(user_id, {
+            ...data,
         });
 
         return res.status(201).json({
             message: "login_histories retrive successful",
             login_histories,
-            pagination,
-            links,
         });
     } catch (error) {
         console.error("Error during retriving login_histories:", error);
@@ -55,4 +52,4 @@ const getAllController = async (req: Request, res: Response) => {
     }
 };
 
-export default getAllController;
+export default getLoginHistoryByUserIdController;
