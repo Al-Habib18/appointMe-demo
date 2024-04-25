@@ -92,3 +92,14 @@ export const deletePayment = async (id: string) => {
         return null;
     }
 };
+
+export const getExistinPayment = async (tran_id: string) => {
+    return prisma.payment.findFirst({
+        where: {
+            transaction_id: tran_id,
+        },
+    }) as Promise<Payment | null>;
+};
+export const countTotal = async () => {
+    return await prisma.payment.count();
+};
