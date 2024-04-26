@@ -1,0 +1,39 @@
+{
+    "services": {
+        "auth": {
+            "url": "http://localhost:4000",
+            "routes": [
+                {
+                    "path": "/auth/register",
+                    "methods": ["post"],
+                    "middlewares": []
+                },
+                {
+                    "path": "/auth/login",
+                    "methods": ["post"],
+                    "middlewares": []
+                },
+                {
+                    "path": "/auth/verify-email",
+                    "methods": ["post"],
+                    "middlewares": []
+                },
+                {
+                    "path": "/auth/verify-token",
+                    "methods": ["post"],
+                    "middlewares": []
+                },
+                {
+                    "path": "/auth/logout",
+                    "methods": ["post"],
+                    "middlewares": []
+                },
+                {
+                    "path": "/auth/refresh",
+                    "methods": ["post"],
+                    "middlewares": []
+                }
+            ]
+        }
+    }
+}
