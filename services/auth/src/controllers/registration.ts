@@ -33,11 +33,11 @@ const registrationController = async (req: Request, res: Response) => {
         const user = await createUser({
             ...parsedBody.data,
             password: hashedPassword,
+            role: "ADMIN",
         });
         if (!user) {
             return res.status(500).json({ message: "Error creating user__" });
         }
-        console.log("User created__: ", user);
 
         // Implement user profile creation
         if (user.role === "PATIENT") {

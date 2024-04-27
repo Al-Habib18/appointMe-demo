@@ -3,17 +3,14 @@
 openapi: 3.0.0
 info:
     version: 1.0.0
-    title: "anchor api"
-    description: "this is the frist professional api project , we create in full-stack army . this is  a simple blog api application where anyone can create a new account, login to their a system and create articles that will be visble publicly."
+    title: "Auth Service API"
+    description: "Anchor API Documentation"
     contact:
         name: Fs army
         url: http://anchor.com
         email: support@anchor.com
 
 servers:
-    # Added by API Auto Mocking Plugin
-    # - description: SwaggerHub API Auto Mocking
-    #   url: https://virtserver.swaggerhub.com/Al-Habib18/anchor_api/1.0.0
     - description: dev server
       url: http://localhost:4000
 
