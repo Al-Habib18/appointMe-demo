@@ -49,14 +49,12 @@ const getAllController = async (req: Request, res: Response) => {
             }
 
             console.log("Cache Hit .");
-            // await deleteKey(key);
         } else {
             doctors = await getAllDoctor({ ...data }); // retrive from database
+            const serializedDoctors = JSON.stringify(doctors);
+            await setDoctors(key, serializedDoctors);
+            console.log("Doctore set in key ::", key);
         }
-
-        const serializedDoctors = JSON.stringify(doctors);
-        await setDoctors(key, serializedDoctors);
-        console.log("Doctore set in key ::", key);
 
         const totalItems = await countTotal();
         const pagination = getPagination(totalItems, defaultLimit, defaultPage);
