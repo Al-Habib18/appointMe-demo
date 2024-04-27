@@ -10,3 +10,5 @@ export default {
 };
 
 export const defaultSender = process.env.DEFAULT_SENDER || "alhabib@gmail.com";
+export const SMTP_HOST = process.env.SMTP_HOST || "mailhog";
+export const SMTP_PORT = parseInt(process.env.SMTP_PORT || "1025");

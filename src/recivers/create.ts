@@ -1,11 +1,12 @@
 /** @format */
 
 import { createEmail } from "../lib";
+import { SMTP_HOST, SMTP_PORT } from "../../config/default";
 import nodemailer from "nodemailer";
 
 export const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || "mailhog",
-    port: parseInt(process.env.SMTP_PORT || "1025"),
+    host: SMTP_HOST || "mailhog",
+    port: SMTP_PORT || 1025,
 });
 
 interface EmailOption {

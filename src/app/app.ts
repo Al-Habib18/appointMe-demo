@@ -26,6 +26,13 @@ app.get("/health", (_req, res) => {
 });
 
 //call all recivers
-callRecivers();
+callRecivers()
+    .then(() => {
+        console.log("Reciving Data from queues .....");
+    })
+    .catch((err) => {
+        console.log("Error occured in queues ::", err);
+        return;
+    });
 
 export default app;

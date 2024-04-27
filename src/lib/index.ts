@@ -85,4 +85,8 @@ const deleteById = async (id: string) => {
         return null;
     }
 };
-export { createEmail, getAllEmails, findById, deleteById };
+
+const getTotal = async () => {
+    return prisma.email.count();
+};
+export { createEmail, getAllEmails, findById, deleteById, getTotal };
