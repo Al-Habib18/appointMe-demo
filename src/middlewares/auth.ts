@@ -10,16 +10,13 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const token = req.headers["authorization"]?.split(" ")[1];
-        const { data } = await axios.post(
-            "http://localhost:4000/verify-token",
-            {
-                accessToken: token,
-                headers: {
-                    ip: req.ip,
-                    "user-agent": req.headers["user-agent"],
-                },
-            }
-        );
+        const { data } = await axios.post("http://auth:4000/verify-token", {
+            accessToken: token,
+            headers: {
+                ip: req.ip,
+                "user-agent": req.headers["user-agent"],
+            },
+        });
 
         req.headers["x-user-id"] = data.user.id;
         req.headers["x-user-email"] = data.user.email;

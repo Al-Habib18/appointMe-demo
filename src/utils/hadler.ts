@@ -21,8 +21,6 @@ const makeRequest = async (
     headers: any
 ) => {
     try {
-        console.log("I am i make request funtion ::  ");
-        console.log("url :: ", url);
         const { data: response } = await axios({
             method,
             url,
@@ -32,9 +30,9 @@ const makeRequest = async (
         return response;
     } catch (error) {
         if (error instanceof axios.AxiosError) {
-            throw error; // Re-throw Axios errors for specific handling
+            throw error;
         } else {
-            throw new Error("Internal Server Error"); // Generic error for other cases
+            throw new Error("Internal Server Error");
         }
     }
 };
@@ -48,13 +46,14 @@ export const createHandler = (
         try {
             req.headers = {
                 origin: "http://localhost:8080",
-                "x-user-id": req.headers["x-user-id"] || "",
-                "x-user-email": req.headers["x-user-email"] || "",
-                "x-user-name": req.headers["x-user-name"] || "",
-                "x-user-role": req.headers["x-user-role"] || "",
+                "x-user-id": req.headers["x-user-id"],
+                "x-user-email": req.headers["x-user-email"],
+                "x-user-name": req.headers["x-user-name"],
+                "x-user-role": req.headers["x-user-role"],
             };
             const url = buildUrl(hostname, path, req);
             const data = await makeRequest(method, url, req.body, req.headers);
+
             return res.json(data);
         } catch (error) {
             console.error(error);
@@ -67,5 +66,3 @@ export const createHandler = (
         }
     };
 };
-
-// Helper functions to be defined in a separate file (buildUrl.ts)

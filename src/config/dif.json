@@ -38,7 +38,7 @@
                     "path": "/refresh",
                     "methods": ["post"],
                     "middlewares": [],
-                    "roles": ["ADMIN", "DOCTOR", "PATIENT"]
+                    "roles": []
                 }
             ]
         },
@@ -49,26 +49,22 @@
                 {
                     "path": "/login-histories",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/login-histories",
                     "methods": ["post"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/login-histories/:id",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/login-histories/users/:id",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 }
             ]
         },
@@ -85,26 +81,22 @@
                 {
                     "path": "/patients",
                     "methods": ["post"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/patients/:id",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "PATIENT"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/patients/:id",
                     "methods": ["put"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "PATIENT"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/patients/:id",
                     "methods": ["delete"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "PATIENT"]
+                    "middlewares": ["auth"]
                 }
             ]
         },
@@ -115,32 +107,27 @@
                 {
                     "path": "/doctors",
                     "methods": ["get"],
-                    "middlewares": [],
-                    "roles": []
+                    "middlewares": []
                 },
                 {
                     "path": "/doctors",
                     "methods": ["post"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/doctors/:id",
                     "methods": ["get"],
-                    "middlewares": [],
-                    "roles": ["ADMIN", "DOCTOR"]
+                    "middlewares": []
                 },
                 {
                     "path": "/doctors/:id",
                     "methods": ["put"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "DOCTOR"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/doctors/:id",
                     "methods": ["delete"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "DOCTOR"]
+                    "middlewares": ["auth"]
                 }
             ]
         },
@@ -151,56 +138,47 @@
                 {
                     "path": "/appointments",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/appointments",
                     "methods": ["post"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "PATIENT"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/appointments/:id",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "PATIENT", "DOCTOR"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/appointments/:id",
                     "methods": ["put"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "PATIENT", "DOCTOR"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/appointments/:id",
                     "methods": ["delete"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/appointments/doctors/:id",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "DOCTOR"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/appointments/patients/:id",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "PATIENT"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/appointments/upcomming/patients/:id",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "PATIENT"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/appointments/upcomming/doctors/:id",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "DOCTOR"]
+                    "middlewares": ["auth"]
                 }
             ]
         },
@@ -211,44 +189,37 @@
                 {
                     "path": "/payments",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/payments",
                     "methods": ["post"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "PATIENT", "DOCTOR"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/payments/:id",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "PATIENT", "DOCTOR"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/payments/:id",
                     "methods": ["delete"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/payments/appointments/:id",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN", "PATIENT", "DOCTOR"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/payments/success/:id",
                     "methods": ["post"],
-                    "middlewares": [],
-                    "roles": []
+                    "middlewares": []
                 },
                 {
                     "path": "/payments/fail/:id",
                     "methods": ["post"],
-                    "middlewares": [],
-                    "roles": []
+                    "middlewares": []
                 }
             ]
         },
@@ -259,26 +230,22 @@
                 {
                     "path": "/emails",
                     "methods": ["post"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/emails",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/emails/:id",
                     "methods": ["get"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 },
                 {
                     "path": "/emails/:id",
                     "methods": ["delete"],
-                    "middlewares": ["auth"],
-                    "roles": ["ADMIN"]
+                    "middlewares": ["auth"]
                 }
             ]
         }

@@ -3,7 +3,7 @@
 export const auth_service_url = process.env.AUTH_SERVICE_URL;
 export const login_history_service_url = process.env.LOGIN_SERVICE_URL;
 
-export const patient_service_url = process.env.APPOINTMENT_SERVICE_URL;
+export const patient_service_url = process.env.PATIENT_SERVICE_URL;
 export const doctor_service_url = process.env.DOCTOR_SERVICE_URL;
 
 export const appointment_service_url = process.env.APPOINTMENT_SERVICE_URL;
