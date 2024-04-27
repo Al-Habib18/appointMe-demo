@@ -1,6 +1,6 @@
 /** @format */
 
 import { auth } from "./auth";
-//TODO: import {role} from './role'
-const middlewares = { auth };
+import { role } from "./role";
+const middlewares = { auth, role };
 export default middlewares;

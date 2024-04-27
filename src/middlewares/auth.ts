@@ -11,7 +11,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.headers["authorization"]?.split(" ")[1];
         const { data } = await axios.post(
-            "http://localhost:4000/auth/verify-token",
+            "http://localhost:4000/verify-token",
             {
                 accessToken: token,
                 headers: {
@@ -25,6 +25,8 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         req.headers["x-user-email"] = data.user.email;
         req.headers["x-user-name"] = data.user.name;
         req.headers["x-user-role"] = data.user.role;
+
+        console.log("user authorized :: ...", data);
 
         next();
     } catch (error) {

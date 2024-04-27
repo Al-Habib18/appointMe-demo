@@ -1,7 +1,7 @@
 /** @format */
-import "module-alias/register";
+// import "module-alias/register";
 import cors from "cors";
-import express, { Application, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
@@ -10,7 +10,7 @@ import { configureRoutes } from "../utils/configureRoutes";
 
 dotenv.config();
 
-const app: Application = express();
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,7 +33,7 @@ const limiter = rateLimit({
         });
     },
 });
-app.use("/api", limiter);
+app.use("/*", limiter);
 
 //TODO: Auth Midleware
 
