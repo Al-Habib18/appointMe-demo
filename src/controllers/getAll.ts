@@ -10,12 +10,13 @@ const getAllController = async (req: Request, res: Response) => {
     try {
         // Validate the request params
         let { limit, page, sortType } = req.query;
-        const defaultlimit = Number(limit);
-        const defaultPage = Number(page);
+        console.log("limit :: ", limit, "page :: ", page);
+        const defaultLimit = Number(limit) || 10;
+        const defaultPage = Number(page) || 1;
 
         if (!sortType) sortType = "asc";
         const parsedParams = queryParamsSchema.safeParse({
-            limit: defaultlimit,
+            limit: defaultLimit,
             page: defaultPage,
             sortType: sortType,
         });
@@ -31,7 +32,7 @@ const getAllController = async (req: Request, res: Response) => {
         const login_histories = await getAllLoginHistory({ ...data });
         const totalItems = await getTotal();
 
-        const pagination = getPagination(totalItems, defaultlimit, defaultPage);
+        const pagination = getPagination(totalItems, defaultLimit, defaultPage);
         const links = getHATEOAS({
             url: req.url,
             path: req.path,
