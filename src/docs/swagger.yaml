@@ -33,6 +33,7 @@ paths:
                                 patient_email:
                                     type: string
                                     format: email
+                                    example: ashik@gmail.com
                                 doctor_id:
                                     type: string
                                     example: ksf12kdfh23kd23

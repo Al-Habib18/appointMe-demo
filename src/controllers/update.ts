@@ -6,7 +6,6 @@ import { Response, Request } from "express";
 
 const updateController = async (req: Request, res: Response) => {
     try {
-        //TODO: update appoint
         const { id } = req.params;
         const parsedId = idParamSchema.safeParse(id);
         if (!parsedId.success) {
@@ -19,6 +18,7 @@ const updateController = async (req: Request, res: Response) => {
         // //validate the request body
         const paresedBody = appintmentUpdateSchema.safeParse(req.body);
         if (!paresedBody.success) {
+            console.log(paresedBody.error);
             return res.status(400).json({
                 message: "invalid request body",
                 errors: paresedBody.error.errors,
@@ -37,7 +37,7 @@ const updateController = async (req: Request, res: Response) => {
 
         return res.status(200).json({
             message: "All appointments updated successfully",
-            updatedAppointment,
+            appointment: updatedAppointment,
         });
     } catch (error) {
         console.error("Error during updating Appointment:", error);

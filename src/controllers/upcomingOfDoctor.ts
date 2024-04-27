@@ -16,16 +16,10 @@ const upcomingOfDoctorController = async (req: Request, res: Response) => {
                 errors: parsedId.error.errors,
             });
         }
-
-        let defaultLimit;
-        if (!limit) defaultLimit = 10;
-        else defaultLimit = Number(limit);
-
-        let defaultPage;
-        if (!page) defaultLimit = 1;
-        else defaultPage = Number(page);
-
+        const defaultLimit = Number(limit);
+        const defaultPage = Number(page);
         if (!sortType) sortType = "asc";
+
         const parsedParams = queryParamsSchema.safeParse({
             limit: defaultLimit,
             page: defaultPage,

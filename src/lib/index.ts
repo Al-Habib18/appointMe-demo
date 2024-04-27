@@ -107,7 +107,7 @@ const updateById = async (
                 ? data.appointment_date
                 : appintment.appointment_date,
         };
-
+        console.log("payment_status ::", data.payment_status);
         const updatedAppointment = await prisma.appointment.update({
             where: {
                 id: id,
@@ -299,6 +299,10 @@ const findAllByDoctorId = async (
     }
 };
 
+const countTotal = async () => {
+    return prisma.appointment.count();
+};
+
 export {
     createAppointment,
     getAllAppointments,
@@ -310,4 +314,5 @@ export {
     updateStatus,
     getUpcomingAppointmentsByPatientId,
     getUpcomingAppointmentsByDoctortId,
+    countTotal,
 };
