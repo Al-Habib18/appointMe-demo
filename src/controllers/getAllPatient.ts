@@ -9,8 +9,8 @@ const getAllPatientsController = async (req: Request, res: Response) => {
     try {
         // Validate the request params
         let { limit, page, sortType } = req.query;
-        const defaultLimit = Number(limit);
-        const defaultPage = Number(page);
+        const defaultLimit = Number(limit) || 10;
+        const defaultPage = Number(page) || 1;
 
         if (!sortType) sortType = "asc";
         const parsedParams = queryParamsSchema.safeParse({
