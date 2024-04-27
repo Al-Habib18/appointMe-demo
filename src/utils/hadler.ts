@@ -6,11 +6,13 @@ import axios from "axios";
 
 export const buildUrl = (hostname: string, path: string, req: Request) => {
     let url = `${hostname}${path}`;
+    console.log("req.params :: ", req.params);
     if (req.params) {
         Object.keys(req.params).forEach((param) => {
             url = url.replace(`:${param}`, req.params[param]);
         });
     }
+    console.log("rul :: ", url);
     return url;
 };
 
@@ -24,6 +26,7 @@ const makeRequest = async (
         const { data: response } = await axios({
             method,
             url,
+
             data,
             headers,
         });
@@ -51,7 +54,9 @@ export const createHandler = (
                 "x-user-name": req.headers["x-user-name"],
                 "x-user-role": req.headers["x-user-role"],
             };
+
             const url = buildUrl(hostname, path, req);
+
             const data = await makeRequest(method, url, req.body, req.headers);
 
             return res.json(data);
